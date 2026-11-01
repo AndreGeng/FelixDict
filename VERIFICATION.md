@@ -1,3 +1,20 @@
+# Launcher installation and E2E record status — 2026-11-01
+
+An existing workspace report describes native UI checks of the `a860706`
+0.2.1 Development build. Its screenshots and UI-operation evidence were not
+available for review in the current session, so those reported checks remain
+**pending verification**. They must not be treated as confirmed E2E acceptance of
+the published 0.2.1 packages.
+
+During the current session, native application access was denied by the
+computer-control tool. Builds, type checks, automated regressions, live provider
+requests, installed Alfred CLI output and installation-file checks passed; these
+checks do not substitute for native UI E2E.
+
+See the [archived report and verification limits](docs/e2e-2026-11-01.md).
+
+---
+
 # Google and Bing dictionary lookup — 2026-11-01
 
 - Added independent `GoogleDictionary` / `BingDictionary` tasks behind existing
