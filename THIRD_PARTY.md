@@ -27,3 +27,14 @@ Upstream is recorded at a fixed revision. Updates are manual: review the relevan
 upstream files and license, adapt providers, update this record and run unit tests,
 live provider smoke checks and Alfred acceptance before replacing a workflow package.
 No upstream installer or update script runs automatically.
+
+## Youdao web translation adapter
+
+Additional reviewed source: `src/providers/translation/youdao.ts` at revision
+`fd846e1050743eb45155428ce62d5bc17a20284f` of the same upstream MIT project.
+The request signing, key retrieval and AES response protocol are adapted into
+`packages/core/src/youdao-translate.ts`. Local implementation uses the shared
+curl transport, auto/auto source detection, per-client target preferences,
+validated paragraph decoding and isolated provider errors. No upstream runtime
+dependency is installed. The web endpoint has language-pair restrictions and
+is distinct from Youdao's credentialed public translation API.

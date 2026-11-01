@@ -16,18 +16,18 @@ export function resultItems(query: string, state: QueryState): ResultItem[] {
     if (dict.forms?.length) items.push(row(query, dict.forms.join('；'), '词形变化'));
     for (const entry of dict.web || []) items.push(row(query, entry.text, '网络释义', entry.note));
   }
-  for (const name of ['Google', 'Bing'] as const) {
+  for (const name of ['YoudaoTranslate', 'Google', 'Bing'] as const) {
     const value = state.results[name];
-    if (value) items.push({ ...row(query, value, `${name} 翻译`), speak: value });
+    if (value) items.push({ ...row(query, value, name === 'YoudaoTranslate' ? '有道翻译' : `${name} 翻译`), speak: value });
   }
   const suggestions = (state.results.Suggest || []).map(({ word, explanation }) => ({
     ...row(word, word, explanation || '有道单词联想'), completion: word, fullText: `${word}\n${explanation}`
   }));
   items.splice(Math.min(items.length, 1), 0, ...suggestions);
   for (const [name, message] of Object.entries(state.errors)) {
-    if (name !== 'Suggest') items.push({ title: `${name} · ${message}`, subtitle: '其他来源的结果仍可使用' });
+    if (name !== 'Suggest') items.push({ title: `${name === 'YoudaoTranslate' ? '有道翻译' : name} · ${message}`, subtitle: '其他来源的结果仍可使用' });
   }
-  if (state.pending.length) items.push({ title: `正在查询 ${state.pending.map(name => name === 'Suggest' ? '单词联想' : name).join(' / ')}…`, subtitle: query });
-  if (!items.length) items.push({ title: '没有找到释义', subtitle: '尝试完整单词或短语；多语言翻译需启用 Google 或 Bing' });
+  if (state.pending.length) items.push({ title: `正在查询 ${state.pending.map(name => name === 'Suggest' ? '单词联想' : name === 'YoudaoTranslate' ? '有道翻译' : name).join(' / ')}…`, subtitle: query });
+  if (!items.length) items.push({ title: '没有找到释义', subtitle: '尝试完整单词或短语；多语言翻译需启用 Youdao、Google 或 Bing' });
   return items;
 }

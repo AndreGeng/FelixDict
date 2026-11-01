@@ -22,9 +22,9 @@ test('Vicinae validates preferences and isolates cache by language pair', () => 
   assert.notEqual(a.key, b.key);
   assert.throws(() => prepareQuery('hello', { target_language: 'en', secondary_language: 'en' }));
   assert.throws(() => prepareQuery(':xx hello'));
-  assert.throws(() => prepareQuery(':ja hello', { providers: 'Youdao' }));
+  assert.deepEqual(Object.keys(prepareQuery(':ja hello', { providers: 'Youdao' }).selected), ['YoudaoTranslate']);
   assert.equal(prepareQuery('hello', { cache_hours: '0' }).ttl, 0);
-  assert.deepEqual(Object.keys(prepareQuery(':ja hello').selected), ['Google']);
+  assert.deepEqual(Object.keys(prepareQuery(':ja hello').selected), ['YoudaoTranslate', 'Google']);
 });
 test('late queries cannot overwrite newer results or cache', async () => {
   const finishes: Record<string, () => void> = {}; const visible: QueryState[] = []; const writes: [string, string, { ttl: number }][] = [];

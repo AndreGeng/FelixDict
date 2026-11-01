@@ -59,6 +59,9 @@ npm run build:raycast
 - **Preferred target language**：首选目标，默认 `zh`。
 - **Secondary language**：源语言与首选目标相同时使用，默认 `en`，必须与首选目标不同。
 - **Providers**：默认 `Youdao,Google`，可选 `Bing`。
+
+启用 `Youdao` 即可同时使用有道词典、联想和多语言翻译，无需新增设置或配置 API Key。有道网页翻译受语种对限制，未能处理时会提示使用 Google / Bing，其他来源的结果仍可使用。 测试范围与已知语种对、错译问题见[语言实测记录](../../docs/youdao-language-support.md)。
+
 - **Cache hours**：默认 24，范围 0–168，0 关闭缓存。
 
 目标语言支持 `zh/en/ja/ko/fr/de/es/it/pt/ru/ar`；`:语言 内容` 临时指定翻译目标。有道词典和前缀联想保留中英范围。

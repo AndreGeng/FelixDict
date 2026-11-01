@@ -31,6 +31,10 @@
     "./session": {
       "types": "./dist/session.d.ts",
       "default": "./dist/session.js"
+    },
+    "./youdao-translate": {
+      "types": "./dist/youdao-translate.d.ts",
+      "default": "./dist/youdao-translate.js"
     }
   }
 }

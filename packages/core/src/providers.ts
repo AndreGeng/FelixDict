@@ -1,10 +1,8 @@
 import type { Dictionary, Suggestion, Providers, LanguagePreferences } from './types.js';
 // Query protocol and dictionary decoding adapted from Raycast-Easydict.
 // Copyright (c) 2022–present tisfeng, maxchang3. MIT; see THIRD_PARTY.md.
-import { execFile } from 'node:child_process';
-import { promisify } from 'node:util';
-
-const run = promisify(execFile);
+import { request } from './request.js';
+import { youdaoTranslate } from './youdao-translate.js';
 const array = (value: unknown): unknown[] => Array.isArray(value) ? value : [];
 const text = (value: unknown): string => typeof value === 'string' ? value : '';
 const record = (value: unknown): value is Record<string, unknown> => value !== null && typeof value === 'object' && !Array.isArray(value);
@@ -61,22 +59,6 @@ export function decodeBing(data: unknown) {
   return value;
 }
 
-// curl honors HTTPS_PROXY/ALL_PROXY and avoids differences in Node's proxy support.
-// Arguments and form bodies are passed separately; query text is never executed.
-async function request(url: string, { body, signal }: { body?: string; signal?: AbortSignal } = {}) {
-  const args = ['--disable', '--silent', '--show-error', '--fail', '--compressed',
-    '--connect-timeout', '3', '--max-time', '7', '--max-filesize', '3145728',
-    '--proto', '=https', '--proto-redir', '=https',
-    '--user-agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/131 Safari/537.36'];
-  // Do not forward POST form tokens across redirects.
-  if (body) args.push('--header', 'Content-Type: application/x-www-form-urlencoded', '--data', body);
-  else args.push('--location', '--max-redirs', '3');
-  args.push('--write-out', '\n%{url_effective}', '--url', url);
-  const { stdout } = await run('/usr/bin/curl', args, { signal, maxBuffer: 3 * 1024 * 1024, timeout: 8000 });
-  const index = stdout.lastIndexOf('\n');
-  return { body: stdout.slice(0, index), url: stdout.slice(index + 1) };
-}
-
 export async function youdao(query: string, signal?: AbortSignal) {
   const params = new URLSearchParams({ q: direction(query).text, le: 'en',
     dicts: JSON.stringify({ count: 99, dicts: [['web_trans', 'ec', 'ce']] }) });
@@ -111,11 +93,17 @@ export async function suggest(query: string, signal?: AbortSignal) {
 export function selectProviders(names: string[], query: string, preferences?: LanguagePreferences): Providers {
   const parsed = parseQuery(query);
   const supportedDictionary = !parsed.target && Array.from(query).every(char => !/\p{L}/u.test(char) || /[\p{Script=Han}\p{Script=Latin}]/u.test(char));
-  const selected: Providers = Object.fromEntries([...new Set(names)]
-    .filter(name => name !== 'Youdao' || supportedDictionary)
-    .map(name => [name, preferences
-      ? (text: string, signal?: AbortSignal) => providers[name](text, signal, preferences)
-      : providers[name]]));
+  const selected: Providers = {};
+  for (const name of new Set(names)) {
+    if (name === 'Youdao') {
+      if (supportedDictionary) selected.Youdao = youdao;
+      selected.YoudaoTranslate = preferences
+        ? (text, signal) => youdaoTranslate(text, signal, preferences) : youdaoTranslate;
+    } else if (Object.hasOwn(providers, name)) {
+      selected[name] = preferences
+        ? (text, signal) => providers[name](text, signal, preferences) : providers[name];
+    }
+  }
   if (supportedDictionary && names.includes('Youdao') && canSuggest(query)) selected.Suggest = suggest;
   return selected;
 }

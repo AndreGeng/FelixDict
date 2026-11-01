@@ -74,7 +74,7 @@ async function main() {
     return;
   }
   if (!Object.keys(selectProviders(enabled, query)).length) {
-    console.log(JSON.stringify({ items: [{ title: '请启用 Google 或 Bing 进行多语言翻译', valid: false }] }));
+    console.log(JSON.stringify({ items: [{ title: '请启用 Youdao、Google 或 Bing 进行多语言翻译', valid: false }] }));
     return;
   }
   if (mode === '--wait') {

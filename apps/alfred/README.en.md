@@ -1,6 +1,5 @@
 # FelixDict for Alfred
 
-
 > **Vicinae version**: this repository also includes [FelixDict](../vicinae/README.en.md), sharing dictionary and prefix suggestions with a separate build and installation. The instructions below cover Alfred.
 
 [中文](README.md) · **English**
@@ -14,7 +13,7 @@ No running Easydict or Raycast app and no translation API key required.
 
 - **English–Chinese dictionary**: Youdao definitions by part of speech, US/UK phonetics, word forms, and web definitions.
 - **Prefix suggestions**: find a word from its first few letters, with Chinese glosses. Press Tab to complete it and look up the full entry.
-- **Multilingual translation**: Google is enabled by default. The source language is detected automatically. Configure a preferred target and secondary language, or specify the target per query. Defaults retain Chinese–English translation.
+- **Multilingual translation**: Youdao and Google translation are enabled by default. The source language is detected automatically. Configure a preferred target and secondary language, or specify the target per query. Defaults retain Chinese–English translation.
 - **Keyboard actions**: Enter to copy, ⌘Enter to speak, and ⌘L to view the full result in Large Type.
 - **Code identifiers**: split `camelCase`, `HTTPServer`, and `snake_case` before lookup.
 - **Progressive results and caching**: providers run in parallel. Fast results appear first, and failures do not hide successful results.
@@ -101,7 +100,7 @@ The following 11 target languages can be selected explicitly:
 | Portuguese | `pt` | Russian | `ru` |
 | Arabic | `ar` | | |
 
-Enable Google or Bing; Google is used by default. The translation service detects the source language. Short words, kanji-only text, and mixed languages can be ambiguous; use a prefix such as `:zh` or `:en` to fix the target.
+Enable Youdao, Google or Bing; Youdao translation and Google are enabled by default. The translation service detects the source language. Short words, kanji-only text, and mixed languages can be ambiguous; use a prefix such as `:zh` or `:en` to fix the target.
 Explicit targets show translation results only. Youdao's definitions, phonetics, and prefix suggestions retain their existing English–Chinese scope.
 `⌘Enter` speaks the translation for translation results and the query word for dictionary results. Japanese containing kana, Korean, and Chinese use a matching installed system voice.
 
@@ -144,15 +143,17 @@ Open **Alfred Preferences → Workflows → FelixDict for Alfred → Configure W
 | Variable | Default | Description |
 | --- | --- | --- |
 | `keyword` | `fd` | Lookup keyword; you can use `yd` if it does not conflict with another Workflow |
-| `providers` | `Youdao,Google` | Comma-separated list: `Youdao`, `Google`, `Bing` |
+| `providers` | `Youdao,Google` | Comma-separated list: `Youdao` (dictionary and translation), `Google`, `Bing` |
 | `target_language` | `zh` | Preferred target language code, such as `en` or `ja` |
 | `secondary_language` | `en` | Target when the source matches the preferred language; must be different |
 | `node_path` | Auto-detected | Absolute path to the Node.js executable |
 | `cache_hours` | `24` | 0–168 hours; 0 disables long-term caching but retains brief state for the active query |
 
-Language preferences apply to Google/Bing translation. Youdao dictionary entries and prefix suggestions remain English–Chinese; remove `Youdao` from `providers` if you do not need them.
+Enabling `Youdao` includes dictionary entries, suggestions and multilingual translation, without new settings or a user API key. The web translation endpoint has language-pair restrictions; failures for unsupported pairs suggest Google/Bing while other sources remain available. See the [language test report](../../docs/youdao-language-support.md) for tested pairs and known failures or mistranslations.
 
-Youdao supplies dictionary entries and prefix suggestions; Google supplies translation. Bing is optional and disabled by default because its requests failed on the development network.
+Language preferences apply to Youdao/Google/Bing translation. Youdao dictionary entries and prefix suggestions remain English–Chinese; removing `Youdao` from `providers` disables its dictionary entries, suggestions and translation together.
+
+Youdao supplies dictionary entries, prefix suggestions and multilingual translation; Google supplies multilingual translation. Bing is optional and disabled by default. Live translation and Alfred CLI checks passed in the current development environment on 2026-11-01; the earlier failure could not be reproduced. See [VERIFICATION.md](../../VERIFICATION.md) for scope and details.
 These providers use website endpoints. Availability can change with network conditions, rate limits, and upstream protocol changes.
 
 `curl` inherits `HTTPS_PROXY` and `ALL_PROXY`; it does not automatically read macOS system proxy settings.

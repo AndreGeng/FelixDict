@@ -31,7 +31,7 @@ class BuildTests(unittest.TestCase):
             cache = target / "cache"
             cache.mkdir()
             import time
-            key = hashlib.sha256(json.dumps([4, "hello", ["Youdao", "Suggest"], "zh", "en"], separators=(",", ":")).encode()).hexdigest()
+            key = hashlib.sha256(json.dumps([5, "hello", ["Youdao", "YoudaoTranslate", "Suggest"], "zh", "en"], separators=(",", ":")).encode()).hexdigest()
             (cache / f"{key}.json").write_text(json.dumps({
                 "updated": int(time.time() * 1000), "results": {"Youdao": {"senses": [{"text": "packaged result"}]}},
                 "errors": {}, "pending": []

@@ -22,8 +22,8 @@ test('explicit language prefix selects a target and removes command from content
 });
 
 test('foreign scripts and explicit targets avoid the English-Chinese dictionary', () => {
-  assert.deepEqual(Object.keys(selectProviders(['Youdao','Google'], '今日はいい天気')), ['Google']);
-  assert.deepEqual(Object.keys(selectProviders(['Youdao','Google'], ':fr hello')), ['Google']);
+  assert.deepEqual(Object.keys(selectProviders(['Youdao','Google'], '今日はいい天気')), ['YoudaoTranslate', 'Google']);
+  assert.deepEqual(Object.keys(selectProviders(['Youdao','Google'], ':fr hello')), ['YoudaoTranslate', 'Google']);
   assert.ok(selectProviders(['Youdao','Google'], 'hello').Youdao);
   const row = render(':ja 你好', {updated: Date.now(), results:{Google:'こんにちは'}, errors:{}, pending:[]}).items[0];
   assert.equal(row.mods!.cmd.arg, 'こんにちは');
@@ -34,7 +34,7 @@ test('upstream language detection corrects ambiguous kanji and respects explicit
   assert.equal(resolvedTarget('東京', 'ja'), 'zh-Hans');
   assert.equal(resolvedTarget('你好', 'zh-CN'), 'en');
   assert.equal(resolvedTarget(':en 東京', 'ja'), 'en');
-  assert.deepEqual(Object.keys(selectProviders(['Youdao','Google'], 'สวัสดี')), ['Google']);
+  assert.deepEqual(Object.keys(selectProviders(['Youdao','Google'], 'สวัสดี')), ['YoudaoTranslate', 'Google']);
 });
 
 test('CLI guides incomplete/unsupported targets and translation-disabled configurations', async () => {
@@ -43,7 +43,7 @@ test('CLI guides incomplete/unsupported targets and translation-disabled configu
     ['apps/alfred/dist/cli.js', '--wait', q], { cwd: new URL('..', import.meta.url), env: { ...process.env, providers: sources }, encoding:'utf8' }));
   assert.match(cli(':ja').items[0].title, /输入要翻译/);
   assert.match(cli(':xx hello').items[0].title, /不支持/);
-  assert.match(cli(':fr hello', 'Youdao').items[0].title, /启用 Google 或 Bing/);
+  assert.match(cli('hello', '').items[0].title, /启用/);
 });
 
 test('preferred and secondary targets follow detected source, with explicit overrides', async () => {
