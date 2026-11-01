@@ -4,7 +4,8 @@ import type { QueryState } from '@felixdict/core/types';
 export function render(query: string, state: QueryState) {
   const items = resultItems(query, state).map(item => ({
     title: item.title,
-    subtitle: item.subtitle + (item.copy !== undefined ? ' · ↩ 复制  ⌘↩ 朗读  ⌘L 全文' : ''),
+    subtitle: item.subtitle + (item.copy !== undefined
+      ? ` · ${item.completion ? 'Tab 补全  ' : ''}↩ 复制  ⌘↩ 朗读  ⌘L 全文` : ''),
     valid: item.copy !== undefined,
     ...(item.copy !== undefined ? {
       arg: item.copy, variables: { action: 'copy' },

@@ -29,7 +29,7 @@ export function resultItems(query: string, state: QueryState): ResultItem[] {
     if (value) items.push({ ...row(query, value, name === 'YoudaoTranslate' ? '有道翻译' : `${name} 翻译`), speak: value });
   }
   const suggestions = (state.results.Suggest || []).map(({ word, explanation }) => ({
-    ...row(word, word, explanation || '有道单词联想'), completion: word, fullText: `${word}\n${explanation}`
+    ...row(word, word, '有道联想', explanation), completion: word, fullText: `${word}\n${explanation}`
   }));
   items.splice(Math.min(items.length, 1), 0, ...suggestions);
   for (const [name, message] of Object.entries(state.errors)) {
