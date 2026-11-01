@@ -44,6 +44,8 @@ Alfred 仅支持 macOS，FelixDict Workflow 已在 macOS 验证。各启动器�
 
 Workflow 不会自行安装软件。Alfred 的依赖管理器面向 Gallery 工作流，FelixDict 目前尚未上架 Gallery。
 
+安装／更新窗口显示精简上手指南，完整图文说明保留在本页；安装包不附带文档截图。
+
 ## 使用
 
 ```text

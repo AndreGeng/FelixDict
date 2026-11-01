@@ -29,7 +29,7 @@ def manifest():
         "bundleid": "local.alfred-easydict", "name": "FelixDict for Alfred",
         "description": "在 Alfred 内查词和翻译，独立运行，无需 Easydict App",
         "createdby": "FelixDict contributors", "version": VERSION,
-        "disabled": False, "readme": (APP / "README.md").read_text().replace("../../", ""),
+        "disabled": False, "readme": (APP / "INSTALL.md").read_text(),
         "connections": {
             search: [connection(action), connection(speech, 1048576, True)],
             universal: [connection(search)]},
@@ -96,7 +96,7 @@ def main():
     with ZipFile(package, 'w', ZIP_DEFLATED) as output:
         output.writestr('info.plist', plistlib.dumps(data))
         output.writestr('icon.png', icon())
-        for name in ('licenses', 'docs/screenshots'):
+        for name in ('licenses',):
             for path in sorted((ROOT / name).glob('*')):
                 if path.is_file():
                     output.write(path, str(path.relative_to(ROOT)))
@@ -109,7 +109,7 @@ def main():
         output.write(APP / 'package.json', 'package.json')
         output.write(ROOT / 'packages/core/package.json', 'node_modules/@felixdict/core/package.json')
         for name in ('README.md', 'README.en.md'):
-            output.writestr(name, (APP / name).read_text().replace('../../', ''))
+            output.writestr(name, (APP / name.replace("README", "INSTALL")).read_text())
         for name in ('LICENSE', 'THIRD_PARTY.md', 'VERIFICATION.md'):
             output.write(ROOT / name, name)
     with ZipFile(package) as package_check:

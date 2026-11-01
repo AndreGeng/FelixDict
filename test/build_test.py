@@ -25,6 +25,8 @@ class BuildTests(unittest.TestCase):
             target = Path(temporary)
             with ZipFile(archive) as package:
                 self.assertIn("dist/cli.js", package.namelist())
+                self.assertFalse(any(name.startswith("docs/screenshots/") for name in package.namelist()))
+                self.assertIn(b"https://github.com/AndreGeng/FelixDict", package.read("README.md"))
                 self.assertIn("node_modules/@felixdict/core/dist/providers.js", package.namelist())
                 self.assertFalse(any(name.endswith((".ts", ".tsx", ".mjs")) for name in package.namelist()))
                 package.extractall(target)

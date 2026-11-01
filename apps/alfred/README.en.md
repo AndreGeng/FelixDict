@@ -44,6 +44,8 @@ Building from source requires Node.js 22.22.2+, npm, and Python 3. Run the comma
 
 The Workflow does not install software itself. Alfred’s Dependencies Manager handles dependencies for Gallery workflows; FelixDict is not yet listed in the Gallery.
 
+The install/update window shows a concise getting-started guide. This page retains the full illustrated documentation; the archive does not include documentation screenshots.
+
 ## Usage
 
 ```text
