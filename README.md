@@ -16,9 +16,19 @@ FelixDict 是运行在 **Alfred、Vicinae 和 Raycast** 中的查词与翻译工
 
 默认启用有道、Google 和 Bing 的词典与翻译，无需配置 API Key。有道 / Bing 词典及前缀联想以中英为范围；Google 词典内容随语种和词条变化，多语言查询也可使用翻译服务。查询需要联网，目前不包含 OCR、生词本、AI 翻译或完整离线词典。
 
-启用 `Youdao` 即可同时使用有道词典、联想和多语言翻译，无需新增设置或配置 API Key。有道网页翻译受语种对限制，未能处理时会提示使用 Google / Bing，其他来源的结果仍可使用。 测试范围与已知语种对、错译问题见[语言实测记录](docs/youdao-language-support.md)。
+启用 `Youdao` 即可同时使用有道词典、联想和多语言翻译，无需新增设置或配置 API Key。有道网页翻译受语种对限制，未能处理时会提示使用 Google / Bing，其他来源的结果仍可使用。测试范围与已知语种对、错译问题见[语言实测记录](docs/youdao-language-support.md)。
 
 普通单词或短语查询会同时获取所启用来源的词典内容：Google 提供读音标记、按词性分组的译义和原文释义；Bing 中英词典提供英美音标、词性释义、词形变化和网络释义。字段以实际词条为准；Google 可显示不同于输入的词典原形（例如 went → go），但目前未接到完整的词形变化列表；其读音标记不一定是国际音标。词典查询与翻译独立，一个失败不影响另一个。指定 `:语言` 目标或输入长句时，Google / Bing 仅查询翻译；Bing 词典仅在目标为中文或英文时查询。移除 `Google` / `Bing` 会同时关闭该来源的词典与翻译。
+
+## 结果列表怎么看？
+
+词典结果会展开显示：不同词性或释义、词形变化、网络释义可各占一条，翻译结果另外显示，因此并非每个来源只有一条。每条结果标明来源；联想候选标为「有道联想」，目前仅使用有道的联想接口。
+
+多个来源并行查询，已有结果先显示，不预留空位。每次更新时，词典内容按有道、Google、Bing 排列，其后是有道、Google、Bing 的翻译；最多 6 条联想候选插在当前首条有效结果之后，失败和加载提示放在末尾。后返回的结果可能插入前面，最终顺序不按返回先后排列。
+
+Enter 在普通结果和联想候选上都用于复制：前者复制当前释义或译文，后者复制完整候选词。补全候选并发起详细查询，在 Alfred 中按 Tab，在 Vicinae / Raycast 中按 ⌘O（Linux 为 Ctrl+O）。
+
+「全文」展示当前选中条目已有的完整文本，并不汇总该来源的所有结果。Alfred 的 ⌘L 不会重新查询；联想接口的释义本身可能已被截断，需补全候选后查询详细词条。
 
 ## 选哪个版本？
 
@@ -148,7 +158,7 @@ npm run package:release
 npm run test:release
 ```
 
-- `npm run build:alfred`：先编译共享包和 Alfred CLI，再生成 `dist/Alfred-FelixDict-0.2.0.alfredworkflow`。不会导入或覆盖已安装的 Alfred Workflow。
+- `npm run build:alfred`：先编译共享包和 Alfred CLI，再生成 `dist/Alfred-FelixDict-*.alfredworkflow`。不会导入或覆盖已安装的 Alfred Workflow。
 - `npm run build:vicinae`：先编译共享包，再构建并安装到当前用户的 Vicinae 扩展目录。
 - `npm run build:raycast`：编译并验证 Raycast 扩展，不导入本机；`npm run dev:raycast` 构建并导入本机 Raycast。
 - `npm run build`：依次构建三个应用；其中 Vicinae 构建会执行本地安装。

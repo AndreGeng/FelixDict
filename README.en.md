@@ -20,6 +20,16 @@ Enabling `Youdao` includes dictionary entries, suggestions and multilingual tran
 
 Plain word and short-phrase queries also fetch dictionary data for enabled providers: Google supplies a reading, translations grouped by part of speech, and source-language definitions; Bing’s English–Chinese dictionary supplies US/UK phonetics, parts of speech, inflections, and web definitions. Fields depend on the entry. Google can show a dictionary base form that differs from the input (for example, went → go), but no complete inflection table is available in this integration; its reading is not necessarily IPA. Dictionary and translation requests fail independently. Explicit `:language` targets and long sentences use Google/Bing translation only; Bing dictionary lookup runs only for Chinese or English targets. Removing `Google` or `Bing` disables both its dictionary and translation.
 
+## Understanding the result list
+
+Dictionary content expands into separate rows for meanings or parts of speech, word forms, and web definitions. Translations appear separately, so one provider can produce multiple rows. Each row names its source; suggestions are labeled “有道联想” (Youdao suggestions). Only Youdao currently supplies prefix suggestions.
+
+Providers run in parallel. Available results appear without reserving empty slots. On each update, dictionary content is ordered Youdao, Google, then Bing, followed by translations in the same provider order. Up to six suggestions appear after the first available result, with errors and loading indicators at the end. Later responses can insert rows above existing ones; the final order is not based on response time.
+
+Enter always copies: the selected definition or translation for ordinary results, or the complete word for suggestions. To complete a candidate and query its detailed entry, use Tab in Alfred or ⌘O in Vicinae / Raycast (Ctrl+O on Linux).
+
+Full text shows the complete text already available for the selected row, rather than aggregating all rows from that provider. Alfred’s ⌘L does not query again. Suggestion glosses may already be shortened by the provider; complete the candidate to look up its detailed entry.
+
 ## Which version should I use?
 
 Alfred, Vicinae, and Raycast are keyboard-driven application launchers. FelixDict is a plugin, so install the corresponding launcher first. The table separates **operating systems supported by the launcher** from **environments tested with FelixDict**.
@@ -146,7 +156,7 @@ npm run package:release
 npm run test:release
 ```
 
-- `build:alfred` compiles core and CLI, then produces `dist/Alfred-FelixDict-0.2.0.alfredworkflow`. It does not import or replace your installed workflow.
+- `build:alfred` compiles core and CLI, then produces `dist/Alfred-FelixDict-*.alfredworkflow`. It does not import or replace your installed workflow.
 - `build:vicinae` compiles core, then builds and installs the extension into your local Vicinae directory.
 - `build:raycast` compiles and validates the extension without importing it; `dev:raycast` builds and imports it into local Raycast.
 - `build` builds all three apps, including the local Vicinae installation.

@@ -11,12 +11,12 @@ No running Easydict or Raycast app and no translation API key required.
 
 ## Features
 
-- **English–Chinese dictionary**: Youdao definitions by part of speech, US/UK phonetics, word forms, and web definitions.
+- **Dictionary lookup**: dictionary content from Youdao, Google, and Bing, including parts of speech, pronunciation, and word forms where available. Fields vary by provider and entry; see Configuration below.
 - **Prefix suggestions**: find a word from its first few letters, with Chinese glosses. Press Tab to complete it and look up the full entry.
 - **Multilingual translation**: Youdao, Google and Bing translation are enabled by default. The source language is detected automatically. Configure a preferred target and secondary language, or specify the target per query. Defaults retain Chinese–English translation.
 - **Keyboard actions**: Enter to copy, ⌘Enter to speak, and ⌘L to view the full result in Large Type.
 - **Code identifiers**: split `camelCase`, `HTTPServer`, and `snake_case` before lookup.
-- **Progressive results and caching**: providers run in parallel. Fast results appear first, and failures do not hide successful results.
+- **Progressive results and caching**: providers run in parallel. Available results appear immediately and are reordered by the list rules; failures do not hide successful results.
 
 A standalone Alfred Workflow with an English–Chinese dictionary and multilingual translation. OCR, vocabulary lists, AI translation, and a complete offline dictionary are not included.
 
@@ -35,7 +35,7 @@ Alfred supports macOS only, and the FelixDict Workflow has been tested on macOS.
    npm run build:alfred
    ```
 
-2. Double-click `dist/Alfred-FelixDict-0.2.0.alfredworkflow` to import or update it in Alfred.
+2. Double-click `dist/Alfred-FelixDict-*.alfredworkflow` to import or update it in Alfred.
 3. Open Alfred and enter `fd hello`. The default keyword is `fd`.
 4. If Node.js is missing, press Enter on the installation hint to open [Alfred’s official dependency installation guide](https://www.alfredapp.com/help/kb/install-dependencies/), install Node.js, then search again. If Node.js is already installed but not detected, set its absolute path in `node_path` under **Configure Workflow**.
 
@@ -113,7 +113,9 @@ Suggestions appear for **2–40 English letters** when Youdao is enabled. For ex
 ![Prefix suggestions for trans, including transfer and transition with Chinese glosses](../../docs/screenshots/suggestions.jpg)
 
 Up to six candidates appear after the first definition of the current query. Select one with ↑ / ↓ and press **Tab** to complete the word and retrieve its detailed entry.
-Candidates also support copying, speech, and Large Type. Chinese text, sentences, and inputs containing symbols do not trigger suggestions. A suggestion failure does not interrupt ordinary lookup.
+Candidates are labeled “有道联想” (Youdao suggestions), with a “Tab 补全” (Tab to complete) hint alongside the action shortcuts. Enter still copies the complete candidate word, keeping its copy action consistent with ordinary results. Candidates also support speech and Large Type. Chinese text, sentences, and inputs containing symbols do not trigger suggestions. A suggestion failure does not interrupt ordinary lookup.
+
+Dictionary meanings, word forms, and web definitions occupy separate rows, with translations listed separately; results are not collapsed into one row per provider. Dictionaries are ordered Youdao, Google, then Bing, followed by translations in the same provider order. Suggestions appear after the first available result, and errors and loading indicators come last. No empty slots are reserved, so later responses can move existing rows.
 
 ### Keyboard shortcuts
 
@@ -127,7 +129,7 @@ Candidates also support copying, speech, and Large Type. Chinese text, sentences
 | `Esc` | Dismiss the query | Dismiss the query |
 
 In Large Type, the first Esc returns to the result list; a second Esc dismisses it. Speech uses the local macOS voice.
-The suggestion endpoint may itself return shortened glosses. Press Tab to retrieve the full dictionary entry.
+⌘L displays the full text already available for the selected row, without querying again or aggregating every result from that provider. The suggestion endpoint may itself return shortened glosses. Press Tab to retrieve the full dictionary entry.
 
 ### Phrases and sentences
 
