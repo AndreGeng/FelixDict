@@ -125,7 +125,7 @@ test/                     TypeScript regressions and Python packaging tests
 docs/                     Shared documentation assets
 ```
 
-npm workspaces manages dependencies with one root `package-lock.json`. Apps import `@easydict/core` rather than another app's source files. The core has no launcher SDK dependency; Alfred JSON and modifier fields belong to the Alfred adapter.
+npm workspaces manages dependencies with one root `package-lock.json`. Apps import `@felixdict/core` rather than another app's source files. The core has no launcher SDK dependency; Alfred JSON and modifier fields belong to the Alfred adapter.
 
 ## Development
 

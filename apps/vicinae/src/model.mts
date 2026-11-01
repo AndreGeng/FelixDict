@@ -1,1 +1,1 @@
-export { prepareQuery, resultRows, createSearchSession, pronunciationText } from '@easydict/core/session';
+export { prepareQuery, resultRows, createSearchSession, pronunciationText } from '@felixdict/core/session';

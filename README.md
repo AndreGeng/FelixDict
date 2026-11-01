@@ -126,7 +126,7 @@ docs/                     截图等共享文档资源
 ```
 
 使用 npm workspaces，依赖版本统一记录在根目录 `package-lock.json`。
-应用通过 `@easydict/core` 包导入共享能力，不跨目录读取另一个应用的源码。
+应用通过 `@felixdict/core` 包导入共享能力，不跨目录读取另一个应用的源码。
 `core` 不依赖任何启动器 SDK；Alfred 的 JSON 协议和快捷键字段由 `apps/alfred` 生成。
 
 ## 开发

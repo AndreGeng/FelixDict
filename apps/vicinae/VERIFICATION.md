@@ -5,7 +5,7 @@ Date: 2026-10-30. Host: Apple Silicon, macOS 26.5.1, Vicinae 0.29.2, Node.js 22.
 ## Passed / 已通过
 
 - 30 Node tests (22 pre-existing Alfred/shared tests plus 8 new Vicinae regressions) and 4 Python Alfred packaging tests.
-- Vicinae TypeScript check and production build; installed as `easydict-companion`.
+- Vicinae TypeScript check and production build; installed as `felixdict-vicinae`.
 - Live provider requests through the Vicinae model: `trans` returned six suggestions; `你好` returned English; `:ja hello` returned `こんにちは`.
 - Explicit per-client settings `en` / `ja` translated `hello` to Japanese without modifying process environment or Alfred settings.
 - Native Vicinae UI displayed `trans`, its six suggestions, and the full `transfer` dictionary entry.

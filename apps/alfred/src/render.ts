@@ -1,5 +1,5 @@
-import { resultItems } from '@easydict/core/results';
-import type { QueryState } from '@easydict/core/types';
+import { resultItems } from '@felixdict/core/results';
+import type { QueryState } from '@felixdict/core/types';
 
 export function render(query: string, state: QueryState) {
   const items = resultItems(query, state).map(item => ({

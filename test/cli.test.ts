@@ -1,4 +1,4 @@
-import type { QueryState, LanguagePreferences } from '@easydict/core/types';
+import type { QueryState, LanguagePreferences } from '@felixdict/core/types';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { execFile } from 'node:child_process';
@@ -7,8 +7,8 @@ import { mkdtemp, rm, readdir } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { cacheKey, saveState } from '@easydict/core/core';
-import { selectProviders } from '@easydict/core/providers';
+import { cacheKey, saveState } from '@felixdict/core/core';
+import { selectProviders } from '@felixdict/core/providers';
 
 const run = promisify(execFile);
 const root = fileURLToPath(new URL('..', import.meta.url));
@@ -52,9 +52,12 @@ test('CLI isolates queries, reads partial state and never interprets shell synta
 
 test('launcher returns valid Alfred guidance for a missing configured Node path', async () => {
   const { stdout } = await run('/bin/bash', ['./apps/alfred/launch.sh', 'hello'], {
-    cwd: root, env: { ...process.env, node_path: '/nonexistent/alfred-easydict-node' }
+    cwd: root, env: { ...process.env, node_path: '/nonexistent/felixdict-node' }
   });
-  assert.equal(JSON.parse(stdout).items[0].title, '找不到 Node.js');
+  const item = JSON.parse(stdout).items[0];
+  assert.equal(item.title, 'Node.js 路径无效');
+  assert.equal(item.valid, false);
+  assert.match(item.subtitle, /node_path/);
 });
 
 test('CLI uses separate caches for both language settings and validates configuration', async () => {

@@ -1,8 +1,8 @@
-import type { QueryState, LanguagePreferences } from '@easydict/core/types';
+import type { QueryState, LanguagePreferences } from '@felixdict/core/types';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { decodeYoudao, parseBingConfig, decodeBing, decodeGoogle, direction } from '@easydict/core/providers';
-import { queryProviders, cacheKey, readState, saveState } from '@easydict/core/core';
+import { decodeYoudao, parseBingConfig, decodeBing, decodeGoogle, direction } from '@felixdict/core/providers';
+import { queryProviders, cacheKey, readState, saveState } from '@felixdict/core/core';
 import { render } from '../apps/alfred/src/render.ts';
 import { mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
@@ -89,7 +89,7 @@ test('Alfred rows copy their meaning, speak the query, keep full text and show p
 });
 
 test('cache separates queries/options, survives corruption, and expires', async () => {
-  const dir = await mkdtemp(join(tmpdir(), 'alfred-easydict-test-'));
+  const dir = await mkdtemp(join(tmpdir(), 'felixdict-test-'));
   try {
     const path = join(dir, 'state.json');
     assert.notEqual(cacheKey('hello', ['Youdao']), cacheKey('world', ['Youdao']));

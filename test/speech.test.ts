@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { speechLanguage, selectVoice, speechCommand } from '@easydict/core/speech';
+import { speechLanguage, selectVoice, speechCommand } from '@felixdict/core/speech';
 
 const voices = `Samantha            en_US    # Hello!
 Eddy (Japanese (Japan)) ja_JP # こんにちは

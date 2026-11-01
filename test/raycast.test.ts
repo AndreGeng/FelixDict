@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { createSearchSession, prepareQuery, resultRows } from '@easydict/core/session';
-import type { QueryState } from '@easydict/core/types';
+import { createSearchSession, prepareQuery, resultRows } from '@felixdict/core/session';
+import type { QueryState } from '@felixdict/core/types';
 
 test('shared session enforces expiry with Raycast-style cache without native TTL', async () => {
   const plan = prepareQuery(':ja hello');

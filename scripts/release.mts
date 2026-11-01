@@ -29,9 +29,9 @@ try {
 
   const vici = join(stage, 'vicinae');
   await mkdir(vici);
-  run('npm', ['run', 'build:vicinae', '--', '--out', join(vici, 'easydict-companion')]);
+  run('npm', ['run', 'build:vicinae', '--', '--out', join(vici, 'felixdict-vicinae')]);
   await copyFile(join(root, 'docs/install-vicinae.md'), join(vici, 'INSTALL.md'));
-  await zip(`FelixDict-Vicinae-${version}.zip`, vici, ['easydict-companion', 'INSTALL.md']);
+  await zip(`FelixDict-Vicinae-${version}.zip`, vici, ['felixdict-vicinae', 'INSTALL.md']);
 
   run('node', ['--experimental-strip-types', 'scripts/prepare-assets.mts'], join(root, 'apps/raycast'));
   const rayext = join(out, `FelixDict-Raycast-${version}.rayext`);

@@ -1,7 +1,7 @@
-import type { QueryState, LanguagePreferences } from '@easydict/core/types';
+import type { QueryState, LanguagePreferences } from '@felixdict/core/types';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { canSuggest, decodeSuggestions, selectProviders } from '@easydict/core/providers';
+import { canSuggest, decodeSuggestions, selectProviders } from '@felixdict/core/providers';
 import { render } from '../apps/alfred/src/render.ts';
 
 test('suggestions run only for English prefixes and enabled Youdao', () => {

@@ -1,14 +1,14 @@
 import { render } from './render.js';
-import { parseQuery, languagePreferences } from '@easydict/core/languages';
+import { parseQuery, languagePreferences } from '@felixdict/core/languages';
 import { spawn } from 'node:child_process';
 import { mkdir, writeFile, readFile, unlink, readdir, stat } from 'node:fs/promises';
 import { homedir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { speak } from '@easydict/core/speech';
+import { speak } from '@felixdict/core/speech';
 import { randomUUID } from 'node:crypto';
-import { providers, selectProviders } from '@easydict/core/providers';
-import { cacheKey, queryProviders, readState, saveState, failureMessage } from '@easydict/core/core';
+import { providers, selectProviders } from '@felixdict/core/providers';
+import { cacheKey, queryProviders, readState, saveState, failureMessage } from '@felixdict/core/core';
 
 const script = fileURLToPath(import.meta.url);
 const [mode, ...args] = process.argv.slice(2);

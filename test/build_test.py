@@ -21,11 +21,11 @@ class BuildTests(unittest.TestCase):
     def test_archive_runs_outside_repository_with_local_shared_package(self):
         build.main()
         archive = build.DIST / f"Alfred-FelixDict-{build.VERSION}.alfredworkflow"
-        with tempfile.TemporaryDirectory(prefix="easydict-package-") as temporary:
+        with tempfile.TemporaryDirectory(prefix="felixdict-package-") as temporary:
             target = Path(temporary)
             with ZipFile(archive) as package:
                 self.assertIn("dist/cli.js", package.namelist())
-                self.assertIn("node_modules/@easydict/core/dist/providers.js", package.namelist())
+                self.assertIn("node_modules/@felixdict/core/dist/providers.js", package.namelist())
                 self.assertFalse(any(name.endswith((".ts", ".tsx", ".mjs")) for name in package.namelist()))
                 package.extractall(target)
             cache = target / "cache"

@@ -25,6 +25,7 @@ def manifest():
         "destinationuid": dest, "modifiers": modifiers,
         "modifiersubtext": "", "vitoclose": keep_open}
     return {
+        # Keep the legacy ID so imports update existing FelixDict workflows and retain their cache.
         "bundleid": "local.alfred-easydict", "name": "FelixDict for Alfred",
         "description": "在 Alfred 内查词和翻译，独立运行，无需 Easydict App",
         "createdby": "FelixDict contributors", "version": VERSION,
@@ -99,14 +100,14 @@ def main():
             for path in sorted((ROOT / name).glob('*')):
                 if path.is_file():
                     output.write(path, str(path.relative_to(ROOT)))
-        for base, prefix in ((APP / 'dist', 'dist'), (ROOT / 'packages/core/dist', 'node_modules/@easydict/core/dist')):
+        for base, prefix in ((APP / 'dist', 'dist'), (ROOT / 'packages/core/dist', 'node_modules/@felixdict/core/dist')):
             if not base.exists():
                 raise RuntimeError('Run npm run build:alfred from the repository root first')
             for path in sorted(base.glob('*.js')):
                 output.write(path, f'{prefix}/{path.name}')
         output.write(APP / 'launch.sh', 'launch.sh')
         output.write(APP / 'package.json', 'package.json')
-        output.write(ROOT / 'packages/core/package.json', 'node_modules/@easydict/core/package.json')
+        output.write(ROOT / 'packages/core/package.json', 'node_modules/@felixdict/core/package.json')
         for name in ('README.md', 'README.en.md'):
             output.writestr(name, (APP / name).read_text().replace('../../', ''))
         for name in ('LICENSE', 'THIRD_PARTY.md', 'VERIFICATION.md'):

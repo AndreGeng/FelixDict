@@ -3,7 +3,7 @@
 - npm workspaces: `apps/alfred`, `apps/vicinae`, `packages/core`; one root lockfile.
 - All maintained Node sources, scripts and tests are TypeScript with strict checking. Generated JavaScript is excluded from Git.
 - Clean temporary checkout: `npm ci`, `npm run typecheck`, all 32 TypeScript tests and 5 Python tests passed; Vicinae built successfully.
-- Added archive regression: extracted Alfred package runs outside the repository with its bundled `@easydict/core` package.
+- Added archive regression: extracted Alfred package runs outside the repository with its bundled `@felixdict/core` package.
 - Live extracted Alfred CLI: `--query :ja hello` returned rerun 0.3, detached worker completed, and subsequent query returned `こんにちは`.
 - Alfred JSON matched pre-migration HEAD on three mixed-result, pending/error, and empty fixtures.
 - Native Vicinae UI loaded the migrated extension and displayed `ins` definitions and suggestions. Its manifest retains CommonJS for the SDK bundle; TypeScript helper modules use `.mts`.

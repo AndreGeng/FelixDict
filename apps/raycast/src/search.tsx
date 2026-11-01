@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Action, ActionPanel, Cache, Clipboard, Detail, List, Toast,
   closeMainWindow, getPreferenceValues, showToast, type LaunchProps } from '@raycast/api';
-import { createSearchSession, prepareQuery, resultRows, pronunciationText } from '@easydict/core/session';
-import { speak } from '@easydict/core/speech';
+import { createSearchSession, prepareQuery, resultRows, pronunciationText } from '@felixdict/core/session';
+import { speak } from '@felixdict/core/speech';
 import { AboutAction } from './about';
 
-import type { QueryState as State } from '@easydict/core/types';
+import type { QueryState as State } from '@felixdict/core/types';
 type Row = { id: string; title: string; subtitle: string; copy?: string; speak?: string; fullText?: string; completion?: string };
 const modifier = process.platform === 'darwin' ? '⌘' : 'Ctrl+';
 const shortcutHint = `Enter 复制 · ${modifier}Enter 朗读 · ${modifier}L 全文 · ${modifier}O 补全建议`;

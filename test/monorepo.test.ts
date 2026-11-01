@@ -1,10 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { resultItems } from '@easydict/core/results';
+import { resultItems } from '@felixdict/core/results';
 import { render } from '../apps/alfred/src/render.ts';
 import { resultRows } from '../apps/vicinae/src/model.mts';
-import type { QueryState } from '@easydict/core/types';
+import type { QueryState } from '@felixdict/core/types';
 
 test('both app adapters preserve the shared result order and action data', () => {
   const state: QueryState = { updated: 0, pending: ['Bing'], errors: {}, results: {
@@ -29,7 +29,7 @@ test('Vicinae keeps the module format required by its CommonJS build output', as
   const manifest = JSON.parse(await readFile(new URL('../apps/vicinae/package.json', import.meta.url), 'utf8'));
   assert.equal(manifest.type, 'commonjs');
   const core = JSON.parse(await readFile(new URL('../packages/core/package.json', import.meta.url), 'utf8'));
-  assert.equal(manifest.dependencies['@easydict/core'], core.version);
+  assert.equal(manifest.dependencies['@felixdict/core'], core.version);
 });
 
 test('both apps speak translated text for Google and Bing, with or without a target prefix', () => {
@@ -44,9 +44,9 @@ test('both apps speak translated text for Google and Bing, with or without a tar
   }
 });
 
-test('Vicinae exposes FelixDict and fd while preserving the installed extension identity', async () => {
+test('Vicinae uses FelixDict package and command names', async () => {
   const manifest = JSON.parse(await readFile(new URL('../apps/vicinae/package.json', import.meta.url), 'utf8'));
-  assert.equal(manifest.name, 'easydict-companion');
+  assert.equal(manifest.name, 'felixdict-vicinae');
   assert.equal(manifest.title, 'FelixDict');
   assert.equal(manifest.commands[0].title, 'FelixDict');
   assert.ok(manifest.commands[0].keywords.includes('fd'));

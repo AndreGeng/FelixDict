@@ -1,5 +1,5 @@
 {
-  "name": "easydict-companion",
+  "name": "felixdict-vicinae",
   "title": "FelixDict",
   "description": "Dictionary, prefix suggestions and translation for Vicinae",
   "icon": "icon.png",
@@ -166,7 +166,7 @@
   },
   "dependencies": {
     "@vicinae/api": "0.29.2",
-    "@easydict/core": "0.2.1"
+    "@felixdict/core": "0.2.1"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",

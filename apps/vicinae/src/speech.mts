@@ -1,1 +1,1 @@
-export { speak, speechCommand } from '@easydict/core/speech';
+export { speak, speechCommand } from '@felixdict/core/speech';

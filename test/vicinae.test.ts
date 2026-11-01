@@ -1,4 +1,4 @@
-import type { QueryState, LanguagePreferences } from '@easydict/core/types';
+import type { QueryState, LanguagePreferences } from '@felixdict/core/types';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { prepareQuery, resultRows, createSearchSession, pronunciationText } from '../apps/vicinae/src/model.mts';
@@ -63,14 +63,14 @@ test('speech passes untrusted text as one argument without a shell', async () =>
 });
 
 test('existing Alfred provider selection keeps default function identity', async () => {
-  const { selectProviders, providers } = await import('@easydict/core/providers');
+  const { selectProviders, providers } = await import('@felixdict/core/providers');
   const selected = selectProviders(['Google', 'Bing'], 'hello');
   assert.equal(selected.Google, providers.Google);
   assert.equal(selected.Bing, providers.Bing);
 });
 
 test('explicit per-client language preferences reach both translators without mutating the environment', async () => {
-  const { selectProviders, providers } = await import('@easydict/core/providers');
+  const { selectProviders, providers } = await import('@felixdict/core/providers');
   const before = process.env.target_language;
   const preferences = { primary: 'fr', secondary: 'ja' };
   const original = { Google: providers.Google, Bing: providers.Bing };

@@ -1,7 +1,7 @@
-import type { QueryState, LanguagePreferences } from '@easydict/core/types';
+import type { QueryState, LanguagePreferences } from '@felixdict/core/types';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { direction, selectProviders } from '@easydict/core/providers';
+import { direction, selectProviders } from '@felixdict/core/providers';
 import { render } from '../apps/alfred/src/render.ts';
 
 test('non-Chinese scripts including Japanese kanji with kana translate to Chinese', () => {
@@ -30,7 +30,7 @@ test('foreign scripts and explicit targets avoid the English-Chinese dictionary'
 });
 
 test('upstream language detection corrects ambiguous kanji and respects explicit target', async () => {
-  const { resolvedTarget } = await import('@easydict/core/languages');
+  const { resolvedTarget } = await import('@felixdict/core/languages');
   assert.equal(resolvedTarget('東京', 'ja'), 'zh-Hans');
   assert.equal(resolvedTarget('你好', 'zh-CN'), 'en');
   assert.equal(resolvedTarget(':en 東京', 'ja'), 'en');
@@ -47,7 +47,7 @@ test('CLI guides incomplete/unsupported targets and translation-disabled configu
 });
 
 test('preferred and secondary targets follow detected source, with explicit overrides', async () => {
-  const { languagePreferences, resolvedTarget } = await import('@easydict/core/languages');
+  const { languagePreferences, resolvedTarget } = await import('@felixdict/core/languages');
   const preferences = languagePreferences({ target_language: 'en', secondary_language: 'ja' });
   assert.deepEqual(preferences, { primary: 'en', secondary: 'ja' });
   assert.equal(direction('你好', preferences).to, 'en');
