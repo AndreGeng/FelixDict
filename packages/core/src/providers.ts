@@ -3,6 +3,8 @@ import type { Dictionary, Suggestion, Providers, LanguagePreferences } from './t
 // Copyright (c) 2022–present tisfeng, maxchang3. MIT; see THIRD_PARTY.md.
 import { request } from './request.js';
 import { youdaoTranslate } from './youdao-translate.js';
+import { googleDictionary, bingDictionary } from './dictionaries.js';
+export { decodeGoogleDictionary, decodeBingDictionary, googleDictionary, bingDictionary } from './dictionaries.js';
 const array = (value: unknown): unknown[] => Array.isArray(value) ? value : [];
 const text = (value: unknown): string => typeof value === 'string' ? value : '';
 const record = (value: unknown): value is Record<string, unknown> => value !== null && typeof value === 'object' && !Array.isArray(value);
@@ -94,6 +96,7 @@ export function selectProviders(names: string[], query: string, preferences?: La
   const parsed = parseQuery(query);
   const supportedDictionary = !parsed.target && Array.from(query).every(char => !/\p{L}/u.test(char) || /[\p{Script=Han}\p{Script=Latin}]/u.test(char));
   const selected: Providers = {};
+  const dictionaryQuery = supportedDictionary && query.length <= 80 && /^[\p{Script=Han}\p{Script=Latin}][\p{Script=Han}\p{Script=Latin}\p{M}'’ -]*$/u.test(query) && query.split(/\s+/).length <= 4;
   for (const name of new Set(names)) {
     if (name === 'Youdao') {
       if (supportedDictionary) selected.Youdao = youdao;
@@ -102,6 +105,11 @@ export function selectProviders(names: string[], query: string, preferences?: La
     } else if (Object.hasOwn(providers, name)) {
       selected[name] = preferences
         ? (text, signal) => providers[name](text, signal, preferences) : providers[name];
+      if (dictionaryQuery && name === 'Google') selected.GoogleDictionary =
+        (text, signal) => googleDictionary(text, signal, preferences);
+      // Bing's dictionary page is English–Chinese, independent of its translator.
+      const target = direction(query, preferences).to;
+      if (dictionaryQuery && name === 'Bing' && ['en', 'zh-Hans'].includes(target)) selected.BingDictionary = bingDictionary;
     }
   }
   if (supportedDictionary && names.includes('Youdao') && canSuggest(query)) selected.Suggest = suggest;

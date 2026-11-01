@@ -7,7 +7,7 @@ import { readFile, writeFile, rename, unlink } from 'node:fs/promises';
 export const failureMessage = '查询失败，请检查网络或稍后重试';
 
 export function cacheKey(query: string, names: string[], preferences = languagePreferences()) {
-  return createHash('sha256').update(JSON.stringify([5, query, names, preferences.primary, preferences.secondary])).digest('hex');
+  return createHash('sha256').update(JSON.stringify([6, query, names, preferences.primary, preferences.secondary])).digest('hex');
 }
 
 export async function readState(path: string, ttl: number): Promise<QueryState | null> {

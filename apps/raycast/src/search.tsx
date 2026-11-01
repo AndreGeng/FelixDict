@@ -6,7 +6,7 @@ import { speak } from '@felixdict/core/speech';
 import { AboutAction } from './about';
 
 import type { QueryState as State } from '@felixdict/core/types';
-type Row = { id: string; title: string; subtitle: string; copy?: string; speak?: string; fullText?: string; completion?: string };
+type Row = { phonetic?: string; id: string; title: string; subtitle: string; copy?: string; speak?: string; fullText?: string; completion?: string };
 const modifier = process.platform === 'darwin' ? '⌘' : 'Ctrl+';
 const shortcutHint = `Enter 复制 · ${modifier}Enter 朗读 · ${modifier}L 全文 · ${modifier}O 补全建议`;
 const cache = new Cache({ namespace: 'queries-v1', capacity: 5 * 1024 * 1024 });
@@ -89,8 +89,7 @@ export default function Search(props: LaunchProps<{ arguments: { query?: string 
       if (row.id !== selected?.id) return '';
       return pronunciationText(pronunciation?.word === row.completion ? pronunciation.state : null);
     }
-    return row.subtitle.startsWith('有道词典')
-      ? (state?.results.Youdao as { phonetic?: string } | undefined)?.phonetic || '' : '';
+    return row.phonetic || '';
   }
   return <List onSelectionChange={id => setSelectedId(id ?? undefined)} navigationTitle="FelixDict" searchText={query} onSearchTextChange={change}
     filtering={false} isLoading={!!state?.pending.length}
@@ -101,7 +100,7 @@ export default function Search(props: LaunchProps<{ arguments: { query?: string 
       const phonetic = phoneticFor(row);
       const subtitle = phonetic && !row.completion
         ? row.subtitle.replace(` · ${phonetic}`, '') : row.subtitle;
-      const actionRow = phonetic ? { ...row, fullText: `${phonetic}\n\n${row.fullText || row.title}` } : row;
+      const actionRow = phonetic && row.completion ? { ...row, fullText: `${phonetic}\n\n${row.fullText || row.title}` } : row;
       return <List.Item key={row.id} id={row.id} icon="icon.png" title={row.title} subtitle={subtitle}
         accessories={phonetic ? [{ text: phonetic }] : []}
         actions={row.copy !== undefined ? <ResultActions row={actionRow} complete={change} /> : undefined} />;

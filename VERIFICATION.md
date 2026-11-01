@@ -1,3 +1,43 @@
+# Google and Bing dictionary lookup — 2026-11-01
+
+- Added independent `GoogleDictionary` / `BingDictionary` tasks behind existing
+  public `Google` / `Bing` switches. Translation failures and dictionary failures
+  remain isolated; no API key or additional runtime dependency was added.
+- Google website response (`translate.googleapis.com/translate_a/single`,
+  `client=gtx`, `dt=t,bd,rm,md`) was checked with `run`, `hello`, `running`, and
+  `你好`: returned source readings, translations grouped by part of speech, and
+  source-language definitions where available. Readings are not necessarily IPA.
+  A follow-up with `dj=1` exposed `base_form`; the matching array fields
+  are `dict[][3]` and `definitions[][2]`. Live checks confirmed `went -> go` and
+  `children -> child`, now displayed as dictionary base forms. No complete
+  inflection list was found; `dt=rw` / `dt=at` probes did not expose one either.
+  This does not establish that no Google product has an inflection table.
+- Bing dictionary source: <https://cn.bing.com/dict/search?q=run&cc=cn&setlang=zh-hans>.
+  The summary card was checked with the same four inputs. `run` returned US/UK
+  phonetics, noun/verb senses, web definitions and `ran`, `runs`, `running` forms.
+  Missing fields remain empty. The explicit locale parameters avoid an observed
+  English-locale response that omitted the summary card.
+- New lookups are limited to unprefixed Han/Latin words or short phrases (up to
+  80 characters and four space-separated words, without sentence punctuation).
+  Bing dictionary is English–Chinese and runs only for English/Chinese targets.
+  Explicit target prefixes continue to request translation only. Google dictionary
+  requests follow the detected source and preferred/secondary target settings.
+- Live Alfred CLI check with **Youdao disabled**, `providers=Google,Bing`:
+  `run` returned both dictionaries, Bing inflections and both translations, with
+  no provider errors; `:ja hello` returned only two Japanese translations and no
+  dictionary rows. Adapter checks verify shared result/action data; native
+  Alfred/Raycast/Vicinae UI interactions were not exercised for this change.
+- `npm run typecheck` passed, including Python checks. `npm test`: 51 TypeScript
+  tests passed, one release-only test skipped, and six Python tests passed.
+  `npm run build` passed for Alfred, Vicinae and Raycast. Deterministic tests cover
+  nested Bing markup/entities, missing fields, malformed responses, source reading
+  selection, target routing, provider toggles and failure isolation. Cache schema
+  advanced from 5 to 6 so old result snapshots are not reused.
+- Website endpoints are undocumented contracts and can change. These observations
+  do not establish dictionary coverage or linguistic accuracy for every language.
+
+---
+
 # Youdao language matrix and request correction — 2026-11-01
 
 - See [language test report](docs/youdao-language-support.md) for all tested directions.

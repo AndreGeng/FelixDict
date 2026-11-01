@@ -65,7 +65,7 @@ test('Youdao rejects malformed/empty responses and isolates rejected requests', 
 test('Youdao enables translation for multilingual input and preserves dictionary control', () => {
   assert.deepEqual(Object.keys(selectProviders(['Youdao'], ':ja 你好')), ['YoudaoTranslate']);
   assert.deepEqual(Object.keys(selectProviders(['Youdao'], 'hello')), ['Youdao', 'YoudaoTranslate', 'Suggest']);
-  assert.deepEqual(Object.keys(selectProviders(['Google'], 'hello')), ['Google']);
+  assert.deepEqual(Object.keys(selectProviders(['Google'], 'hello')), ['Google', 'GoogleDictionary']);
   const items = resultItems(':ja 你好', { updated: 0, results: { YoudaoTranslate: 'こんにちは', Google: 'やあ' }, errors: {}, pending: [] });
   assert.equal(items[0].subtitle, '有道翻译');
   assert.equal(items[0].copy, 'こんにちは');

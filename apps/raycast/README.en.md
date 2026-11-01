@@ -62,6 +62,8 @@ Configure these preferences in Raycast:
 
 Enabling `Youdao` includes dictionary entries, suggestions and multilingual translation, without new settings or a user API key. The web translation endpoint has language-pair restrictions; failures for unsupported pairs suggest Google/Bing while other sources remain available. See the [language test report](../../docs/youdao-language-support.md) for tested pairs and known failures or mistranslations.
 
+Plain word and short-phrase queries also fetch dictionary data for enabled providers: Google supplies a reading, translations grouped by part of speech, and source-language definitions; Bing’s English–Chinese dictionary supplies US/UK phonetics, parts of speech, inflections, and web definitions. Fields depend on the entry. Google can show a dictionary base form that differs from the input (for example, went → go), but no complete inflection table is available in this integration; its reading is not necessarily IPA. Dictionary and translation requests fail independently. Explicit `:language` targets and long sentences use Google/Bing translation only; Bing dictionary lookup runs only for Chinese or English targets. Removing `Google` or `Bing` disables both its dictionary and translation.
+
 - **Cache hours**: 24 by default, from 0 to 168; 0 disables caching.
 
 Supported targets: `zh/en/ja/ko/fr/de/es/it/pt/ru/ar`. Use `:language text` for a one-off target. Youdao dictionary and prefix suggestions retain their English–Chinese scope.

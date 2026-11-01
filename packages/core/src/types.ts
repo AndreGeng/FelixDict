@@ -11,13 +11,14 @@ export type Provider = (query: string, signal?: AbortSignal, preferences?: Langu
 export type Providers = Record<string, Provider>;
 export interface QueryState {
   updated: number;
-  results: { Youdao?: Dictionary; Suggest?: Suggestion[]; YoudaoTranslate?: string; Google?: string; Bing?: string; [name: string]: ProviderValue | undefined };
+  results: { Youdao?: Dictionary; GoogleDictionary?: Dictionary; BingDictionary?: Dictionary; Suggest?: Suggestion[]; YoudaoTranslate?: string; Google?: string; Bing?: string; [name: string]: ProviderValue | undefined };
   errors: Record<string, string>;
   pending: string[];
   id?: string;
   query?: string;
 }
 export interface ResultItem {
+  phonetic?: string;
   title: string;
   subtitle: string;
   copy?: string;

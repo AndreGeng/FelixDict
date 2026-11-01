@@ -68,7 +68,7 @@ test('CLI uses separate caches for both language settings and validates configur
       [{ primary: 'en', secondary: 'ja' }, 'こんにちは'],
       [{ primary: 'en', secondary: 'fr' }, 'Bonjour']
     ];
-    const keys = configurations.map(([preferences]) => cacheKey('hello', ['Google'], preferences));
+    const keys = configurations.map(([preferences]) => cacheKey('hello', Object.keys(selectProviders(['Google'], 'hello', preferences)), preferences));
     assert.equal(new Set(keys).size, configurations.length);
     for (const [index, [preferences, translation]] of configurations.entries()) {
       await saveState(join(dir, `${keys[index]}.json`), {

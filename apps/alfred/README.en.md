@@ -151,9 +151,11 @@ Open **Alfred Preferences → Workflows → FelixDict for Alfred → Configure W
 
 Enabling `Youdao` includes dictionary entries, suggestions and multilingual translation, without new settings or a user API key. The web translation endpoint has language-pair restrictions; failures for unsupported pairs suggest Google/Bing while other sources remain available. See the [language test report](../../docs/youdao-language-support.md) for tested pairs and known failures or mistranslations.
 
+Plain word and short-phrase queries also fetch dictionary data for enabled providers: Google supplies a reading, translations grouped by part of speech, and source-language definitions; Bing’s English–Chinese dictionary supplies US/UK phonetics, parts of speech, inflections, and web definitions. Fields depend on the entry. Google can show a dictionary base form that differs from the input (for example, went → go), but no complete inflection table is available in this integration; its reading is not necessarily IPA. Dictionary and translation requests fail independently. Explicit `:language` targets and long sentences use Google/Bing translation only; Bing dictionary lookup runs only for Chinese or English targets. Removing `Google` or `Bing` disables both its dictionary and translation.
+
 Language preferences apply to Youdao/Google/Bing translation. Youdao dictionary entries and prefix suggestions remain English–Chinese; removing `Youdao` from `providers` disables its dictionary entries, suggestions and translation together.
 
-Youdao supplies dictionary entries, prefix suggestions and multilingual translation; Google supplies multilingual translation. Bing is enabled by default. Live translation and Alfred CLI checks passed in the current development environment on 2026-11-01; the earlier failure could not be reproduced. See [VERIFICATION.md](../../VERIFICATION.md) for scope and details.
+Youdao supplies dictionary entries, prefix suggestions and multilingual translation; Google and Bing supply dictionary lookup and multilingual translation. Bing is enabled by default. Live translation and Alfred CLI checks passed in the current development environment on 2026-11-01; the earlier failure could not be reproduced. See [VERIFICATION.md](../../VERIFICATION.md) for scope and details.
 These providers use website endpoints. Availability can change with network conditions, rate limits, and upstream protocol changes.
 
 `curl` inherits `HTTPS_PROXY` and `ALL_PROXY`; it does not automatically read macOS system proxy settings.
