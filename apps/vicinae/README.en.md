@@ -64,7 +64,7 @@ Find **FelixDict** in Vicinae's extension settings:
 
 - **Preferred target language**: `zh` by default.
 - **Secondary language**: `en` by default; used when the source matches the preferred language. Must differ from the preferred language.
-- **Providers**: `Youdao,Google` by default; optionally add `Bing`.
+- **Providers**: `Youdao,Google,Bing` by default; remove providers as needed.
 
 Enabling `Youdao` includes dictionary entries, suggestions and multilingual translation, without new settings or a user API key. The web translation endpoint has language-pair restrictions; failures for unsupported pairs suggest Google/Bing while other sources remain available. See the [language test report](../../docs/youdao-language-support.md) for tested pairs and known failures or mistranslations.
 

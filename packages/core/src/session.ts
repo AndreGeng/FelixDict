@@ -10,7 +10,7 @@ export function prepareQuery(input: string, settings: Record<string, string | un
   if (query.length > 2000) throw new Error('查询内容不能超过 2000 字符');
   const preferences = languagePreferences(settings);
   if (!parseQuery(query).text) throw new Error('输入要翻译的内容，例如 :ja 你好');
-  const names = (settings.providers ?? 'Youdao,Google').split(',').map(x => x.trim())
+  const names = (settings.providers ?? 'Youdao,Google,Bing').split(',').map(x => x.trim())
     .filter(x => ['Youdao', 'Google', 'Bing'].includes(x));
   const selected = selectProviders(names, query, preferences);
   if (!Object.keys(selected).length) throw new Error('请启用 Youdao、Google 或 Bing；多语言翻译需要 Youdao、Google 或 Bing');

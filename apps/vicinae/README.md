@@ -66,7 +66,7 @@ npm run build:vicinae
 
 - **Preferred target language**：默认 `zh`。
 - **Secondary language**：默认 `en`，原文语言与首选语言一致时使用，必须不同于首选语言。
-- **Providers**：默认 `Youdao,Google`，可增加 `Bing`。
+- **Providers**：默认 `Youdao,Google,Bing`，可按需移除来源。
 
 启用 `Youdao` 即可同时使用有道词典、联想和多语言翻译，无需新增设置或配置 API Key。有道网页翻译受语种对限制，未能处理时会提示使用 Google / Bing，其他来源的结果仍可使用。 测试范围与已知语种对、错译问题见[语言实测记录](../../docs/youdao-language-support.md)。
 

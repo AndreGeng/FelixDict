@@ -31,5 +31,5 @@ test('Raycast command declares fd, supported platform and existing default prefe
   const prefs = Object.fromEntries(manifest.preferences.map((p: {name:string; default:string}) => [p.name,p.default]));
   assert.equal(prefs.target_language, 'zh');
   assert.equal(prefs.secondary_language, 'en');
-  assert.equal(prefs.providers, 'Youdao,Google');
+  assert.equal(prefs.providers, 'Youdao,Google,Bing');
 });

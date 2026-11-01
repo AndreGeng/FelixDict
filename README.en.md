@@ -14,7 +14,7 @@ If FelixDict is useful to you, consider [giving it a star on GitHub ⭐](https:/
 - **Keyboard actions**: copy, speak, and view full results without reaching for the mouse.
 - **Progressive results and caching**: services run in parallel, results appear as they arrive, and repeated queries can use the local cache.
 
-Youdao dictionary, Youdao translation and Google translation are enabled by default, with no API key configuration required. Dictionary lookup and prefix suggestions cover English–Chinese; other languages use translation services. Queries require an internet connection. OCR, vocabulary collections, AI translation, and a complete offline dictionary are not included.
+Youdao dictionary and Youdao, Google and Bing translation are enabled by default, with no API key configuration required. Dictionary lookup and prefix suggestions cover English–Chinese; other languages use translation services. Queries require an internet connection. OCR, vocabulary collections, AI translation, and a complete offline dictionary are not included.
 
 Enabling `Youdao` includes dictionary entries, suggestions and multilingual translation, without new settings or a user API key. The web translation endpoint has language-pair restrictions; failures for unsupported pairs suggest Google/Bing while other sources remain available. See the [language test report](docs/youdao-language-support.md) for tested pairs and known failures or mistranslations.
 

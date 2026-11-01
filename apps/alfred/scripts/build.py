@@ -60,7 +60,7 @@ def manifest():
                    universal: {"xpos": 40, "ypos": 100}, speech: {"xpos": 560, "ypos": 300}},
         "userconfigurationconfig": [
             setting("keyword", "查询关键词", "fd", "默认 fd，可自行修改。"),
-            setting("providers", "查询来源", "Youdao,Google", "逗号分隔：Youdao（词典和翻译）、Google、Bing。Bing 可选。"),
+            setting("providers", "查询来源", "Youdao,Google,Bing", "逗号分隔：Youdao（词典和翻译）、Google、Bing。默认全部启用。"),
             setting("target_language", "首选目标语言 / Preferred target", "zh", "zh, en, ja, ko, fr, de, es, it, pt, ru, ar。默认 zh；:语言 前缀优先 / Explicit prefixes override this."),
             setting("secondary_language", "第二语言 / Secondary language", "en", "原文为首选语言时使用；须与首选语言不同 / Used when the source matches the preferred target; choose a different language."),
             setting("node_path", "Node.js 路径", "", "可留空自动检测；找不到时填写 Node.js 18+ 可执行文件绝对路径。"),

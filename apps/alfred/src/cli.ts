@@ -13,7 +13,7 @@ import { cacheKey, queryProviders, readState, saveState, failureMessage } from '
 const script = fileURLToPath(import.meta.url);
 const [mode, ...args] = process.argv.slice(2);
 const cacheDir = process.env.alfred_workflow_cache || join(homedir(), 'Library/Caches/local.alfred-easydict');
-const enabled = (process.env.providers ?? 'Youdao,Google').split(',').map(x => x.trim()).filter(x => Object.hasOwn(providers, x));
+const enabled = (process.env.providers ?? 'Youdao,Google,Bing').split(',').map(x => x.trim()).filter(x => Object.hasOwn(providers, x));
 const ttlHours = Number(process.env.cache_hours ?? '24');
 const ttl = (Number.isFinite(ttlHours) ? Math.max(0, Math.min(168, ttlHours)) : 24) * 3600000;
 

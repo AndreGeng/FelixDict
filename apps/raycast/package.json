@@ -146,7 +146,7 @@
       "title": "Providers",
       "description": "Comma-separated: Youdao,Google,Bing",
       "required": false,
-      "default": "Youdao,Google"
+      "default": "Youdao,Google,Bing"
     },
     {
       "name": "cache_hours",
