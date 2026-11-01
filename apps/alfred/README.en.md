@@ -38,10 +38,12 @@ Alfred supports macOS only, and the FelixDict Workflow has been tested on macOS.
 
 2. Double-click `dist/Alfred-FelixDict-0.2.0.alfredworkflow` to import or update it in Alfred.
 3. Open Alfred and enter `fd hello`. The default keyword is `fd`.
-4. If Node.js cannot be found, set `node_path` under **Workflows → FelixDict for Alfred → Configure Workflow**.
+4. If Node.js is missing, press Enter on the installation hint to open [Alfred’s official dependency installation guide](https://www.alfredapp.com/help/kb/install-dependencies/), install Node.js, then search again. If Node.js is already installed but not detected, set its absolute path in `node_path` under **Configure Workflow**.
 
 The launcher checks `~/.local/bin/node`, `/opt/homebrew/bin/node`, `/usr/local/bin/node`, and `PATH`.
 Building from source requires Node.js 22.22.2+, npm, and Python 3. Run the commands above at the repository root. An existing package only needs Node.js 18+; no development dependency installation is required.
+
+The Workflow does not install software itself. Alfred’s Dependencies Manager handles dependencies for Gallery workflows; FelixDict is not yet listed in the Gallery.
 
 ## Usage
 

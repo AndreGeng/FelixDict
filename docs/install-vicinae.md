@@ -1,7 +1,7 @@
 # FelixDict for Vicinae — 安装 / Installation
 
-适用 macOS 和 Linux；macOS 已实机验证，Linux 桌面交互尚未实机验证。不支持 Windows。
-For macOS and Linux; tested on macOS, Linux desktop interaction remains unverified. Windows is not supported.
+已在 macOS 和 Arch Linux 验证；Windows 及其它 Linux 发行版和桌面环境尚待验证，欢迎反馈问题。以下安装步骤面向 macOS 和 Linux。
+Tested on macOS and Arch Linux. Windows and other Linux distributions and desktop environments await validation; please report any issues. The installation steps below are for macOS and Linux.
 
 1. 安装 Vicinae 0.29.2+。Install Vicinae 0.29.2+.
 2. 解压 ZIP，在包含 `easydict-companion` 的目录打开终端。

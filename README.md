@@ -28,7 +28,7 @@ Alfred、Vicinae 和 Raycast 都是用键盘呼出的应用启动器；FelixDict
 
 - **macOS**：三个版本均已验证，按你使用的启动器选择。Alfred 版需要 Alfred 5 Powerpack 和 Node.js 18+。
 - **Linux**：使用 Vicinae 版，已在 Arch Linux 验证；其它发行版和桌面环境尚未逐一验证。朗读需要配置 Speech Dispatcher（`spd-say`）。
-- **Windows**：Vicinae 和 Raycast 本身支持 Windows，但 FelixDict 的这两个扩展目前均未适配 Windows。
+- **Windows**：Vicinae 和 Raycast 本身支持 Windows；FelixDict 在 Windows 上尚待验证，欢迎试用并反馈问题。
 
 已验证环境不代表覆盖所有系统版本、硬件和桌面配置。在其它环境使用时如遇问题，欢迎通过 [GitHub Issues](https://github.com/AndreGeng/FelixDict/issues) 反馈，并附上系统版本、启动器版本、FelixDict 版本和复现步骤；Linux 用户也请注明发行版、桌面环境及 Wayland / X11。
 

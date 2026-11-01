@@ -5,7 +5,7 @@
 A Vicinae extension sharing dictionary, prefix suggestion, and translation logic with this repository's Alfred Workflow.
 This is a separate local extension, not Easy Dictionary from the Raycast Store.
 
-Vicinae itself supports Linux, macOS (Apple Silicon only, beta), and Windows. The FelixDict extension has been tested on **macOS and Arch Linux** and has not yet been adapted for Windows. Other Linux distributions and desktop environments have not been individually tested; please [report any issues](https://github.com/AndreGeng/FelixDict/issues). See the [platform and validation table](../../README.en.md#which-version-should-i-use) for details.
+Vicinae itself supports Linux, macOS (Apple Silicon only, beta), and Windows. The FelixDict extension has been tested on **macOS and Arch Linux** and is awaiting validation on Windows. Other Linux distributions and desktop environments have not been individually tested; please [report any issues](https://github.com/AndreGeng/FelixDict/issues). See the [platform and validation table](../../README.en.md#which-version-should-i-use) for details.
 
 ## Screenshots
 

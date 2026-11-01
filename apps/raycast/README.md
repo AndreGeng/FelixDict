@@ -10,7 +10,7 @@
 
 以下为仓库源码安装方式。
 
-FelixDict 的 Raycast 扩展目前仅支持 macOS，已在 macOS 验证。Raycast 本身也有 Windows 版本，但本扩展尚未适配 Windows。需要 Raycast；从源码构建需要 Node.js 22.22.2+、npm，以及完整仓库。
+Raycast 本身支持 macOS 和 Windows。FelixDict 的 Raycast 扩展已在 macOS 验证，Windows 尚待验证，欢迎试用并反馈问题。需要 Raycast；从源码构建需要 Node.js 22.22.2+、npm，以及完整仓库。
 
 在仓库根目录执行：
 

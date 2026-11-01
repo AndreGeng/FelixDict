@@ -28,7 +28,7 @@ Alfred, Vicinae, and Raycast are keyboard-driven application launchers. FelixDic
 
 - **macOS**: all three editions have been tested. Choose the edition for your launcher. Alfred requires Alfred 5 Powerpack and Node.js 18+.
 - **Linux**: use the Vicinae edition, tested on Arch Linux. Other distributions and desktop environments have not been individually tested. Speech requires a configured Speech Dispatcher (`spd-say`).
-- **Windows**: Vicinae and Raycast themselves support Windows, but neither FelixDict extension has been adapted for Windows yet.
+- **Windows**: Vicinae and Raycast themselves support Windows. FelixDict is awaiting validation on Windows; please try it and report any issues.
 
 Testing does not cover every OS version, hardware configuration, or desktop setup. If you encounter issues in other environments, please [report them on GitHub Issues](https://github.com/AndreGeng/FelixDict/issues) with your OS, launcher and FelixDict versions, and steps to reproduce. On Linux, also include your distribution, desktop environment, and whether you use Wayland or X11.
 

@@ -38,10 +38,12 @@ Alfred 仅支持 macOS，FelixDict Workflow 已在 macOS 验证。各启动器�
 
 2. 双击生成的 `dist/Alfred-FelixDict-0.2.0.alfredworkflow`，在 Alfred 中导入或更新。
 3. 呼出 Alfred，输入 `fd hello`。默认关键词为 `fd`。
-4. 如果找不到 Node.js，在 **Workflows → FelixDict for Alfred → Configure Workflow** 中设置 `node_path`。
+4. 未安装 Node.js 时，对安装提示按回车，打开 [Alfred 官方依赖安装指引](https://www.alfredapp.com/help/kb/install-dependencies/)，安装 Node.js 后重新查询。如果已经安装但未识别，在 **Configure Workflow** 中将 `node_path` 设置为可执行文件的绝对路径。
 
 启动脚本自动检查 `~/.local/bin/node`、`/opt/homebrew/bin/node`、`/usr/local/bin/node` 和 `PATH`。
 从源码构建需要 Node.js 22.22.2+、npm 和 Python 3，请在仓库根目录运行上述命令。使用已构建的安装包只需要 Node.js 18+，无需安装开发依赖。
+
+Workflow 不会自行安装软件。Alfred 的依赖管理器面向 Gallery 工作流，FelixDict 目前尚未上架 Gallery。
 
 ## 使用
 

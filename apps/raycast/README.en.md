@@ -10,7 +10,7 @@ Download `FelixDict-Raycast-source-*.zip`; no repository clone is needed. Use v0
 
 The following steps install from a repository checkout.
 
-The FelixDict Raycast extension currently supports macOS only and has been tested on macOS. Raycast itself also supports Windows, but this extension has not yet been adapted for Windows. Requires Raycast; source builds require Node.js 22.22.2+, npm, and the complete repository.
+Raycast itself supports macOS and Windows. The FelixDict Raycast extension has been tested on macOS and is awaiting validation on Windows; please try it and report any issues. Requires Raycast; source builds require Node.js 22.22.2+, npm, and the complete repository.
 
 Run from the repository root:
 

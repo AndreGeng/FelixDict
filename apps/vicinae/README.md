@@ -5,7 +5,7 @@
 与本仓库 Alfred Workflow 共用查词、拼写建议和翻译逻辑的 Vicinae 扩展。
 它是独立的本地扩展，不是 Raycast 商店中的 Easy Dictionary。
 
-Vicinae 本身支持 Linux、macOS（仅 Apple Silicon，Beta）和 Windows。FelixDict 扩展已在 **macOS 和 Arch Linux** 验证，尚未适配 Windows。其它 Linux 发行版和桌面环境尚未逐一验证，如遇问题欢迎[反馈](https://github.com/AndreGeng/FelixDict/issues)。完整说明见[平台与验证范围](../../README.md#选哪个版本)。
+Vicinae 本身支持 Linux、macOS（仅 Apple Silicon，Beta）和 Windows。FelixDict 扩展已在 **macOS 和 Arch Linux** 验证，Windows 尚待验证。其它 Linux 发行版和桌面环境尚未逐一验证，如遇问题欢迎[反馈](https://github.com/AndreGeng/FelixDict/issues)。完整说明见[平台与验证范围](../../README.md#选哪个版本)。
 
 ## 界面预览
 
