@@ -18,19 +18,21 @@ FelixDict 是运行在 **Alfred、Vicinae 和 Raycast** 中的查词与翻译工
 
 ## 选哪个版本？
 
-Alfred、Vicinae 和 Raycast 都是用键盘呼出的应用启动器；FelixDict 是安装在其中的插件，需要先安装对应启动器。启动器支持某个系统，并不代表 FelixDict 已经适配该系统。
+Alfred、Vicinae 和 Raycast 都是用键盘呼出的应用启动器；FelixDict 是安装在其中的插件，需要先安装对应启动器。下表分别列出**启动器本身支持的系统**和**FelixDict 已验证的环境**。
 
-| 启动器 | 启动器支持的桌面系统 | FelixDict 当前支持与验证范围 | 安装说明 |
+| 启动器 | 启动器支持的桌面系统 | FelixDict 已验证的环境 | 安装说明 |
 | --- | --- | --- | --- |
-| Alfred | macOS | macOS，已实机验证；需要 Alfred 5 Powerpack 和 Node.js 18+ | [Alfred 版](apps/alfred/README.md) |
-| Vicinae | Linux、macOS（Apple Silicon，Beta）、Windows（0.29.0 起） | macOS 已实机验证；Linux 已实现适配，桌面交互尚未实机验证；Windows 尚未适配 | [Vicinae 版](apps/vicinae/README.md) |
-| Raycast | macOS、Windows | 目前仅支持 macOS，已实机验证；Windows 尚未适配 | [Raycast 版](apps/raycast/README.md) |
+| Alfred | macOS | macOS | [Alfred 版](apps/alfred/README.md) |
+| Vicinae | Linux（Wayland / X11）、macOS（仅 Apple Silicon，Beta）、Windows（0.29.0 起） | macOS、Arch Linux | [Vicinae 版](apps/vicinae/README.md) |
+| Raycast | macOS、Windows | macOS | [Raycast 版](apps/raycast/README.md) |
 
-- **macOS**：已有上述启动器，就安装对应版本；使用 Alfred 版需要付费 Powerpack。
-- **Linux / Arch / XFCE**：使用 Vicinae 版；目前仍需在你的桌面环境验证交互，朗读需要配置 Speech Dispatcher（`spd-say`）。
-- **Windows**：FelixDict 暂无适配版本，即使已安装 Raycast 或 Vicinae，也不能直接使用本仓库的扩展。
+- **macOS**：三个版本均已验证，按你使用的启动器选择。Alfred 版需要 Alfred 5 Powerpack 和 Node.js 18+。
+- **Linux**：使用 Vicinae 版，已在 Arch Linux 验证；其它发行版和桌面环境尚未逐一验证。朗读需要配置 Speech Dispatcher（`spd-say`）。
+- **Windows**：Vicinae 和 Raycast 本身支持 Windows，但 FelixDict 的这两个扩展目前均未适配 Windows。
 
-启动器平台信息核对于 2026-10-30：[Alfred 官网](https://www.alfredapp.com/)、[Vicinae 平台说明](https://docs.vicinae.com/os-support)及 [Windows 安装说明](https://docs.vicinae.com/install/windows)、[Raycast Windows](https://www.raycast.com/windows)。Vicinae 的平台概览尚未更新 Windows 状态，此处以较新的 Windows 安装说明为准。
+已验证环境不代表覆盖所有系统版本、硬件和桌面配置。在其它环境使用时如遇问题，欢迎通过 [GitHub Issues](https://github.com/AndreGeng/FelixDict/issues) 反馈，并附上系统版本、启动器版本、FelixDict 版本和复现步骤；Linux 用户也请注明发行版、桌面环境及 Wayland / X11。
+
+启动器平台信息核对于 2026-11-01，来源：[Alfred 官网](https://www.alfredapp.com/)、[Vicinae 平台说明](https://docs.vicinae.com/os-support)、[Raycast 官网](https://www.raycast.com/)及 [Windows 版说明](https://www.raycast.com/windows)。
 
 ## 下载与安装
 
@@ -86,7 +88,7 @@ Enter 复制，⌘Enter 朗读，⌘L 大字查看全文，Tab 补全候选词�
 
 Enter 复制，⌘Enter 朗读，⌘L 打开可滚动的全文详情，⌘O 补全候选词；Linux 对应使用 Ctrl 修饰键。Vicinae 的标题和副标题在同一行显示，与 Alfred 的双行布局不同。
 
-Vicinae 截图来自 macOS；Linux/XFCE 的桌面交互尚未实机验证。Linux 朗读需要配置 Speech Dispatcher（`spd-say`）。
+Vicinae 版已在 macOS 和 Arch Linux 验证，截图来自 macOS。Linux 朗读需要配置 Speech Dispatcher（`spd-say`）。
 
 → [Vicinae 安装与详细使用说明](apps/vicinae/README.md)
 
@@ -149,7 +151,7 @@ npm run test:release
 - `npm test`：编译测试需要的运行时代码，执行 TypeScript 测试和 Alfred 打包检查。
 
 TypeScript 编译产物位于各包的 `dist/`，不提交到 Git。Alfred 安装包包含编译后的 JavaScript 和本地共享包，无需用户安装 TypeScript 或执行 npm install，运行时仍支持 Node.js 18+。
-Vicinae 将共享代码打包进扩展，运行时不依赖仓库路径。Linux/XFCE 桌面交互尚未实机验证。
+Vicinae 将共享代码打包进扩展，运行时不依赖仓库路径。
 
 ## 许可与来源
 

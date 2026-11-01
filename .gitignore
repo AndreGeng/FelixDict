@@ -2,6 +2,7 @@ dist/
 .DS_Store
 *.log
 .env*
+.reme
 node_modules/
 __pycache__/
 apps/raycast/assets/build-info.json

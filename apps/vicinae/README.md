@@ -5,6 +5,8 @@
 与本仓库 Alfred Workflow 共用查词、拼写建议和翻译逻辑的 Vicinae 扩展。
 它是独立的本地扩展，不是 Raycast 商店中的 Easy Dictionary。
 
+Vicinae 本身支持 Linux、macOS（仅 Apple Silicon，Beta）和 Windows。FelixDict 扩展已在 **macOS 和 Arch Linux** 验证，尚未适配 Windows。其它 Linux 发行版和桌面环境尚未逐一验证，如遇问题欢迎[反馈](https://github.com/AndreGeng/FelixDict/issues)。完整说明见[平台与验证范围](../../README.md#选哪个版本)。
+
 ## 界面预览
 
 以下为 macOS 上的实际截图，展示查词结果、音标和前缀联想。
@@ -56,7 +58,7 @@ npm run build:vicinae
 普通释义的全文与 Alfred 相同；建议接口如果返回缩略释义，需用补全操作查询完整单词。
 
 朗读在 macOS 使用系统 `say`；Linux 需要已配置可用的 Speech Dispatcher（`spd-say`）。
-未安装时显示错误，不影响查询和复制。Linux 桌面交互尚未实机验收。
+未安装时显示错误，不影响查询和复制。已在 Arch Linux 验证，其它 Linux 发行版和桌面环境尚未逐一验证。
 
 ## 配置
 

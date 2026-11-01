@@ -27,6 +27,8 @@
 
 需要 **macOS、Alfred 5 + Powerpack、Node.js 18+**。运行时没有 npm 依赖。
 
+Alfred 仅支持 macOS，FelixDict Workflow 已在 macOS 验证。各启动器支持的系统、项目已验证的环境及其它环境的问题反馈方式，见[平台与验证范围](../../README.md#选哪个版本)。
+
 1. 在项目目录构建安装包：
 
    ```bash

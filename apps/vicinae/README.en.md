@@ -5,6 +5,8 @@
 A Vicinae extension sharing dictionary, prefix suggestion, and translation logic with this repository's Alfred Workflow.
 This is a separate local extension, not Easy Dictionary from the Raycast Store.
 
+Vicinae itself supports Linux, macOS (Apple Silicon only, beta), and Windows. The FelixDict extension has been tested on **macOS and Arch Linux** and has not yet been adapted for Windows. Other Linux distributions and desktop environments have not been individually tested; please [report any issues](https://github.com/AndreGeng/FelixDict/issues). See the [platform and validation table](../../README.en.md#which-version-should-i-use) for details.
+
 ## Screenshots
 
 Actual macOS screenshots showing dictionary results, phonetics, and prefix suggestions.
@@ -54,7 +56,7 @@ Enter `hello`, `trans`, `你好`, `:ja hello`, or a sentence. You can also suppl
 Actions are also available through the Actions menu. Full text uses Vicinae's detail page, rather than Alfred Large Type.
 The meaning payload matches Alfred's, with pronunciation added when available; suggestion glosses may already be abbreviated by the provider. Use Complete Word to query the full word.
 macOS speech uses `say`. Linux requires a working Speech Dispatcher (`spd-say`); missing speech support displays an error without blocking lookup or copy.
-Linux desktop interactions have not yet been tested on a physical Linux installation.
+Tested on Arch Linux; other Linux distributions and desktop environments have not been individually tested.
 
 ## Settings
 

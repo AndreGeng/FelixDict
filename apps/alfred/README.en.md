@@ -27,6 +27,8 @@ Download `Alfred-FelixDict-*.alfredworkflow` from [Releases](https://github.com/
 
 Requires **macOS, Alfred 5 with Powerpack, and Node.js 18+**. There are no npm runtime dependencies.
 
+Alfred supports macOS only, and the FelixDict Workflow has been tested on macOS. For launcher platforms, tested environments, and how to report issues in other environments, see the [platform and validation table](../../README.en.md#which-version-should-i-use).
+
 1. Build the package from the project directory:
 
    ```bash

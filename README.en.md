@@ -18,19 +18,21 @@ Youdao dictionary and Google translation are enabled by default, with no API key
 
 ## Which version should I use?
 
-Alfred, Vicinae, and Raycast are keyboard-driven application launchers. FelixDict is a plugin, so install the corresponding launcher first. A launcher's operating-system support does not mean FelixDict supports every one of those systems.
+Alfred, Vicinae, and Raycast are keyboard-driven application launchers. FelixDict is a plugin, so install the corresponding launcher first. The table separates **operating systems supported by the launcher** from **environments tested with FelixDict**.
 
-| Launcher | Desktop operating systems supported by the launcher | Current FelixDict support and validation | Installation |
+| Launcher | Desktop operating systems supported by the launcher | Environments tested with FelixDict | Installation |
 | --- | --- | --- | --- |
-| Alfred | macOS | macOS, tested on a real installation; requires Alfred 5 Powerpack and Node.js 18+ | [Alfred edition](apps/alfred/README.en.md) |
-| Vicinae | Linux, macOS (Apple Silicon, beta), Windows (since 0.29.0) | Tested on macOS; Linux adaptation implemented but desktop interaction not yet tested on a real installation; Windows not yet supported | [Vicinae edition](apps/vicinae/README.en.md) |
-| Raycast | macOS, Windows | Currently macOS only, tested on a real installation; Windows not yet supported | [Raycast edition](apps/raycast/README.en.md) |
+| Alfred | macOS | macOS | [Alfred edition](apps/alfred/README.en.md) |
+| Vicinae | Linux (Wayland / X11), macOS (Apple Silicon only, beta), Windows (since 0.29.0) | macOS, Arch Linux | [Vicinae edition](apps/vicinae/README.en.md) |
+| Raycast | macOS, Windows | macOS | [Raycast edition](apps/raycast/README.en.md) |
 
-- **macOS**: if you already use one of these launchers, install its FelixDict edition. The Alfred edition requires the paid Powerpack.
-- **Linux / Arch / XFCE**: use the Vicinae edition. Desktop interaction still needs verification in your environment; speech requires a configured Speech Dispatcher (`spd-say`).
-- **Windows**: FelixDict has no Windows-compatible edition yet. Installing Raycast or Vicinae does not make this repository's extensions compatible with Windows.
+- **macOS**: all three editions have been tested. Choose the edition for your launcher. Alfred requires Alfred 5 Powerpack and Node.js 18+.
+- **Linux**: use the Vicinae edition, tested on Arch Linux. Other distributions and desktop environments have not been individually tested. Speech requires a configured Speech Dispatcher (`spd-say`).
+- **Windows**: Vicinae and Raycast themselves support Windows, but neither FelixDict extension has been adapted for Windows yet.
 
-Launcher platform information checked on 2026-10-30: [Alfred](https://www.alfredapp.com/), [Vicinae platform overview](https://docs.vicinae.com/os-support) and [Windows installation guide](https://docs.vicinae.com/install/windows), and [Raycast for Windows](https://www.raycast.com/windows). Vicinae's overview has not yet updated its Windows status; this table follows the newer Windows installation guide.
+Testing does not cover every OS version, hardware configuration, or desktop setup. If you encounter issues in other environments, please [report them on GitHub Issues](https://github.com/AndreGeng/FelixDict/issues) with your OS, launcher and FelixDict versions, and steps to reproduce. On Linux, also include your distribution, desktop environment, and whether you use Wayland or X11.
+
+Launcher platform information checked on 2026-11-01: [Alfred](https://www.alfredapp.com/), [Vicinae platform overview](https://docs.vicinae.com/os-support), [Raycast](https://www.raycast.com/), and [Raycast for Windows](https://www.raycast.com/windows).
 
 ## Downloads and installation
 
@@ -86,7 +88,7 @@ Search for `fd` in Vicinae, select **FelixDict**, and press Enter to open the co
 
 Enter copies, ⌘Enter speaks, ⌘L opens scrollable full-text details, and ⌘O completes a candidate. On Linux, use Ctrl instead of ⌘. Vicinae displays titles and subtitles on the same line, unlike Alfred's two-line rows.
 
-Vicinae screenshots were captured on macOS. Linux/XFCE desktop interaction has not been tested on a physical Linux installation. Linux speech requires a configured Speech Dispatcher (`spd-say`).
+The Vicinae edition has been tested on macOS and Arch Linux; screenshots were captured on macOS. Linux speech requires a configured Speech Dispatcher (`spd-say`).
 
 → [Vicinae installation and usage guide](apps/vicinae/README.en.md)
 
@@ -147,7 +149,7 @@ npm run test:release
 - `test` compiles runtime code, runs TypeScript tests, and checks Alfred packaging.
 
 Generated `dist/` files are not committed. The Alfred archive includes compiled JavaScript and a local copy of the shared package; users need no TypeScript or npm install. Its runtime still supports Node.js 18+.
-Vicinae bundles shared code and does not depend on the checkout at runtime. Linux/XFCE desktop interaction has not been tested on a physical Linux installation.
+Vicinae bundles shared code and does not depend on the checkout at runtime.
 
 ## License and attribution
 
