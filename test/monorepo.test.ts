@@ -7,7 +7,7 @@ import { resultRows } from '../apps/vicinae/src/model.mts';
 import type { QueryState } from '@felixdict/core/types';
 
 test('both app adapters preserve the shared result order and action data', () => {
-  const state: QueryState = { updated: 0, pending: ['Bing'], errors: {}, results: {
+  const state: QueryState = { updated: 0, pending: ['BingDictionary'], errors: {}, results: {
     Youdao: { phonetic: '美 /test/', senses: [{ text: '测试', note: 'n.' }], forms: ['复数：tests'] },
     Suggest: [{ word: 'testing', explanation: '测试中' }], Google: '测试译文'
   } };
@@ -32,10 +32,10 @@ test('Vicinae keeps the module format required by its CommonJS build output', as
   assert.equal(manifest.dependencies['@felixdict/core'], core.version);
 });
 
-test('both apps speak translated text for Google and Bing, with or without a target prefix', () => {
+test('both apps speak translated text for Youdao and Google, with or without a target prefix', () => {
   for (const query of [':ja 你好', '你好']) {
     const state: QueryState = { updated: 0, pending: [], errors: {}, results: {
-      Google: 'こんにちは', Bing: 'こんにちは！'
+      YoudaoTranslate: 'こんにちは', Google: 'こんにちは！'
     } };
     const expected = ['こんにちは', 'こんにちは！'];
     assert.deepEqual(resultItems(query, state).map(item => item.speak), expected);

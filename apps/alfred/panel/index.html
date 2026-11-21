@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'">
+  <title>FelixDict</title>
+  <link rel="stylesheet" href="panel.css">
+  <script src="panel.js" defer></script>
+</head>
+<body>
+<div id="fd-quick">
+  <div class="stage">
+    <section class="window" data-expanded="false" aria-label="FelixDict 翻译面板">
+      <header class="bar row between">
+        <div class="row brand"><img class="logo" src="icon.png" alt="" width="24" height="24"><strong class="name">FelixDict</strong></div>
+        <div class="row">
+          <button id="fdq-pin" type="button" class="pin-toggle quiet cursor-interaction" aria-label="窗口置顶" aria-pressed="false">
+            <span class="pin-off" aria-hidden="true"><i></i></span>
+            <span class="pin-on" aria-hidden="true"><i></i></span>
+          </button>
+          <span id="fdq-pin-hint" class="pin-hint muted" aria-hidden="true">窗口置顶</span>
+        </div>
+      </header>
+      <div class="workspace">
+        <section class="input-pane" aria-label="原文和语种">
+          <div class="row between">
+            <label class="label" for="fdq-source">原文</label>
+          </div>
+          <textarea id="fdq-source" rows="3" maxlength="2000" placeholder="输入或粘贴要翻译的文字" spellcheck="false"></textarea>
+          <div class="row between">
+            <div class="row"><label class="muted" for="fdq-language">译成</label>
+              <select id="fdq-language">
+                <option value="">自动</option>
+              </select>
+            </div>
+            <button id="fdq-run" type="button" class="action cursor-interaction">翻译</button>
+          </div>
+        </section>
+        <section class="output-pane" aria-labelledby="fdq-output-title">
+          <div class="row between">
+            <h2 id="fdq-output-title">译文</h2>
+            <span id="fdq-count" class="muted" role="status"></span>
+          </div>
+          <div id="fdq-results"></div>
+          <p id="fdq-message" class="muted" role="status" hidden></p>
+        </section>
+      </div>
+      <footer class="foot">
+        <span id="fdq-feedback" class="muted" role="status"></span>
+        <button id="fdq-compare" type="button" class="action cursor-interaction" aria-controls="fdq-results" aria-expanded="false">比较译文 →</button>
+      </footer>
+    </section>
+  </div>
+</div>
+</body>
+</html>

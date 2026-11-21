@@ -9,6 +9,7 @@ import { speak } from '@felixdict/core/speech';
 import { randomUUID } from 'node:crypto';
 import { providers, selectProviders } from '@felixdict/core/providers';
 import { cacheKey, queryProviders, readState, saveState, failureMessage } from '@felixdict/core/core';
+import { launchPanel, translatePanel } from './panel.js';
 
 const script = fileURLToPath(import.meta.url);
 const [mode, ...args] = process.argv.slice(2);
@@ -19,7 +20,7 @@ const ttl = (Number.isFinite(ttlHours) ? Math.max(0, Math.min(168, ttlHours)) : 
 
 async function cleanup() {
   for (const file of await readdir(cacheDir)) {
-    if (!/^[a-f0-9]{64}\.json(?:\.[a-f0-9-]+\.tmp)?$/.test(file)) continue;
+    if (!/^(?:panel-)?[a-f0-9]{64}\.json(?:\.[a-f0-9-]+\.tmp)?$/.test(file)) continue;
     const path = join(cacheDir, file);
     const info = await stat(path).catch(() => null);
     if (info && Date.now() - info.mtimeMs > Math.max(ttl, 60000)) await unlink(path).catch(() => {});
@@ -35,9 +36,19 @@ async function worker(query: string, path: string, id: string) {
 }
 
 async function main() {
+  if (mode === '--panel') {
+    await launchPanel(args[0] || '');
+    return;
+  }
+  if (mode === '--panel-translate') {
+    await cleanup().catch(() => {});
+    await translatePanel(cacheDir, enabled, ttl);
+    return;
+  }
   if (mode === '--action') {
     const value = args.join(' ');
-    if (process.env.action === 'speak') await speak(value);
+    if (process.env.action === 'panel') await launchPanel(value);
+    else if (process.env.action === 'speak') await speak(value);
     else {
       await new Promise<void>((resolve, reject) => {
         const child = spawn('/usr/bin/pbcopy', [], { stdio: ['pipe', 'ignore', 'ignore'] });
@@ -74,7 +85,7 @@ async function main() {
     return;
   }
   if (!Object.keys(selectProviders(enabled, query)).length) {
-    console.log(JSON.stringify({ items: [{ title: '请启用 Youdao、Google 或 Bing 进行多语言翻译', valid: false }] }));
+    console.log(JSON.stringify({ items: [{ title: '当前查询没有可用来源；翻译请启用 Youdao 或 Google', valid: false }] }));
     return;
   }
   if (mode === '--wait') {
@@ -121,7 +132,7 @@ async function main() {
 
 main().catch(() => {
   // Do not echo URLs, query text, provider tokens or subprocess error output.
-  if (mode !== '--worker' && mode !== '--action') console.log(JSON.stringify({ items: [
+  if (mode !== '--worker' && mode !== '--action' && mode !== '--panel' && mode !== '--panel-translate') console.log(JSON.stringify({ items: [
     { title: '暂时无法查询', subtitle: '检查缓存目录权限和 Node.js 配置后重试', valid: false }
   ] }));
   process.exitCode = 1;

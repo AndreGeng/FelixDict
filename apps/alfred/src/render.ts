@@ -1,8 +1,11 @@
 import { resultItems } from '@felixdict/core/results';
 import type { QueryState } from '@felixdict/core/types';
+import { existsSync } from 'node:fs';
 
-export function render(query: string, state: QueryState) {
-  const items = resultItems(query, state).map(item => ({
+const hasPanel = existsSync(new URL('../panel/FelixDictPanel', import.meta.url));
+
+export function render(query: string, state: QueryState, panelAvailable = hasPanel) {
+  const results = resultItems(query, state).map(item => ({
     title: item.title,
     subtitle: item.subtitle + (item.copy !== undefined
       ? ` · ${item.completion ? 'Tab 补全  ' : ''}↩ 复制  ⌘↩ 朗读  ⌘L 全文` : ''),
@@ -14,5 +17,14 @@ export function render(query: string, state: QueryState) {
     } : {}),
     ...(item.completion ? { autocomplete: item.completion } : {})
   }));
-  return { items, ...(state.pending.length ? { rerun: 0.3 } : {}) };
+  if (panelAvailable) {
+    results.splice(1, 0, {
+      title: '打开对照翻译窗口',
+      subtitle: '↩ 带入当前原文和目标语种',
+      valid: true,
+      arg: query,
+      variables: { action: 'panel' },
+    });
+  }
+  return { items: results, ...(state.pending.length ? { rerun: 0.3 } : {}) };
 }

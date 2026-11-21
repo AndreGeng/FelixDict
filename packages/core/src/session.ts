@@ -13,7 +13,7 @@ export function prepareQuery(input: string, settings: Record<string, string | un
   const names = (settings.providers ?? 'Youdao,Google,Bing').split(',').map(x => x.trim())
     .filter(x => ['Youdao', 'Google', 'Bing'].includes(x));
   const selected = selectProviders(names, query, preferences);
-  if (!Object.keys(selected).length) throw new Error('请启用 Youdao、Google 或 Bing；多语言翻译需要 Youdao、Google 或 Bing');
+  if (!Object.keys(selected).length) throw new Error('当前查询没有可用来源；翻译请启用 Youdao 或 Google');
   const hours = Number(settings.cache_hours ?? 24);
   const ttl = (Number.isFinite(hours) ? Math.max(0, Math.min(168, hours)) : 24) * 3600000;
   return { query, selected, ttl, key: cacheKey(query, Object.keys(selected), preferences) };

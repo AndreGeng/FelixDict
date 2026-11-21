@@ -59,12 +59,12 @@ test('Bing summary parsing scopes nested markup, entities, pronunciations and in
 
 test('provider switches include dictionaries, while explicit targets and sentences remain translation only', () => {
   assert.deepEqual(Object.keys(selectProviders(['Google', 'Bing'], 'test')),
-    ['Google', 'GoogleDictionary', 'Bing', 'BingDictionary']);
+    ['Google', 'GoogleDictionary', 'BingDictionary']);
   for (const query of [':ja test', '今日はいい天気', 'This is a complete sentence.', '']) {
-    assert.deepEqual(Object.keys(selectProviders(['Google', 'Bing'], query)), ['Google', 'Bing']);
+    assert.deepEqual(Object.keys(selectProviders(['Google', 'Bing'], query)), ['Google']);
   }
   assert.deepEqual(Object.keys(selectProviders(['Google'], 'test')), ['Google', 'GoogleDictionary']);
-  assert.deepEqual(Object.keys(selectProviders(['Bing'], 'test', { primary: 'ja', secondary: 'en' })), ['Bing']);
+  assert.deepEqual(Object.keys(selectProviders(['Bing'], 'test', { primary: 'ja', secondary: 'en' })), []);
 });
 
 test('dictionary rows retain sources, pronunciation, full detail and original-word speech across launchers', () => {

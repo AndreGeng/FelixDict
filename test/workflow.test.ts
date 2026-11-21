@@ -1,7 +1,7 @@
 import type { QueryState, LanguagePreferences } from '@felixdict/core/types';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { decodeYoudao, parseBingConfig, decodeBing, decodeGoogle, direction } from '@felixdict/core/providers';
+import { decodeYoudao, decodeGoogle, direction } from '@felixdict/core/providers';
 import { queryProviders, cacheKey, readState, saveState } from '@felixdict/core/core';
 import { render } from '../apps/alfred/src/render.ts';
 import { mkdtemp, rm, writeFile } from 'node:fs/promises';
@@ -28,15 +28,6 @@ test('untrusted dictionary data is validated and empty entries ignored', () => {
   for (const input of [null, [], 'oops']) assert.throws(() => decodeYoudao(input));
   const result = decodeYoudao({ ec: { word: [{ trs: [null, { tr: [{ l: { i: [42] } }] }] }] } });
   assert.deepEqual(result.senses, []);
-});
-
-test('Bing page parsing validates token fields and rejects changed markup', () => {
-  assert.deepEqual(parseBingConfig('IG:"abc" data-iid="translator.1" var params_AbusePreventionHelper = [123,"token",60000];'),
-    { ig: 'abc', iid: 'translator.1', key: '123', token: 'token' });
-  assert.throws(() => parseBingConfig('<html>captcha</html>'));
-  assert.throws(() => parseBingConfig('IG:"abc" var params_AbusePreventionHelper = [null,{},10];'));
-  assert.equal(decodeBing([{ translations: [{ text: '你好' }] }]), '你好');
-  assert.throws(() => decodeBing({ statusCode: 429 }));
 });
 
 test('Chinese including punctuation translates to English; identifiers are split', () => {

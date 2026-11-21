@@ -144,7 +144,7 @@
       "name": "providers",
       "type": "textfield",
       "title": "Providers",
-      "description": "Comma-separated: Youdao,Google,Bing",
+      "description": "Comma-separated: Youdao and Google (dictionary and translation), Bing (English–Chinese dictionary)",
       "required": false,
       "default": "Youdao,Google,Bing"
     },

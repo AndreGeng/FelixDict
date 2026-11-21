@@ -19,6 +19,9 @@ if [[ -z "$runtime" ]]; then
   runtime="$(command -v node || true)"
 fi
 if [[ -z "$runtime" || ! -x "$runtime" ]]; then
+  if [[ "${1:-}" == "--panel" ]]; then
+    exec /usr/bin/osascript -e 'display alert "FelixDict" message "请安装 Node.js 18+，或在 Workflow 设置中填写有效的 Node.js 路径。"'
+  fi
   if [[ -n "${node_path:-}" ]]; then
     echo '{"items":[{"title":"Node.js 路径无效","subtitle":"请在 Configure Workflow 中修正 node_path，或清空以自动检测","valid":false}]}'
   else

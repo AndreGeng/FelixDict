@@ -28,6 +28,11 @@ class BuildTests(unittest.TestCase):
                 self.assertFalse(any(name.startswith("docs/screenshots/") for name in package.namelist()))
                 self.assertIn(b"https://github.com/AndreGeng/FelixDict", package.read("README.md"))
                 self.assertIn("node_modules/@felixdict/core/dist/providers.js", package.namelist())
+                if build.BUILD_PANEL:
+                    for name in ("FelixDictPanel", "index.html", "panel.css", "panel.js", "icon.png"):
+                        self.assertIn(f"panel/{name}", package.namelist())
+                    self.assertTrue(package.getinfo("panel/FelixDictPanel").external_attr >> 16 & 0o111)
+                    self.assertEqual(package.read("panel/icon.png"), package.read("icon.png"))
                 self.assertFalse(any(name.endswith((".ts", ".tsx", ".mjs")) for name in package.namelist()))
                 package.extractall(target)
             cache = target / "cache"
@@ -41,7 +46,23 @@ class BuildTests(unittest.TestCase):
             env = {**os.environ, "alfred_workflow_cache": str(cache), "providers": "Youdao",
                    "target_language": "zh", "secondary_language": "en"}
             output = subprocess.check_output(["node", "dist/cli.js", "--query", "hello"], cwd=target, env=env, text=True)
-            self.assertEqual(json.loads(output)["items"][0]["arg"], "packaged result")
+            items = json.loads(output)["items"]
+            self.assertEqual(items[0]["arg"], "packaged result")
+            panel_rows = [row for row in items if row.get("variables", {}).get("action") == "panel"]
+            self.assertEqual([row["arg"] for row in panel_rows], ["hello"] if build.BUILD_PANEL else [])
+            panel_key = hashlib.sha256(json.dumps(
+                [6, ":ja hello", ["YoudaoTranslate"], "zh", "en"], separators=(",", ":")
+            ).encode()).hexdigest()
+            (cache / f"panel-{panel_key}.json").write_text(json.dumps({
+                "updated": int(time.time() * 1000), "results": {"YoudaoTranslate": "こんにちは"},
+                "errors": {}, "pending": []
+            }))
+            output = subprocess.check_output(["node", "dist/cli.js", "--panel-translate"], cwd=target, env={**env, "providers": "Youdao,Bing"},
+                                             text=True, input=json.dumps({"text": "hello", "target": "ja"}) + "\n")
+            start, result = map(json.loads, output.splitlines())
+            self.assertEqual(start, {"type": "start", "names": ["YoudaoTranslate"]})
+            self.assertEqual(result["results"], {"YoudaoTranslate": "こんにちは"})
+            self.assertEqual(result["pending"], [])
 
     def test_brand_and_keyword(self):
         manifest = build.manifest()
@@ -64,6 +85,7 @@ class BuildTests(unittest.TestCase):
     def test_alfred_5_object_versions(self):
         supported = {
             "alfred.workflow.input.scriptfilter": 3,
+            "alfred.workflow.input.keyword": 1,
             "alfred.workflow.action.script": 2,
             "alfred.workflow.trigger.universalaction": 1,
         }
@@ -81,6 +103,16 @@ class BuildTests(unittest.TestCase):
         search = next(o for o in objects if o["type"] == "alfred.workflow.input.scriptfilter")
         self.assertEqual(search["config"]["scriptargtype"], 1)
         self.assertIn('--query "$1"', search["config"]["script"])
+
+    def test_panel_entries_pass_text_as_argv(self):
+        manifest = build.manifest(include_panel=True)
+        objects = {obj["uid"]: obj for obj in manifest["objects"]}
+        panel = objects["PANEL"]["config"]
+        self.assertEqual(panel["scriptargtype"], 1)
+        self.assertIn('--panel "$1"', panel["script"])
+        self.assertTrue(objects["PANEL_SELECTION"]["config"]["acceptstext"])
+        for entry in ("PANEL_KEYWORD", "PANEL_SELECTION"):
+            self.assertEqual(manifest["connections"][entry][0]["destinationuid"], "PANEL")
 
 
 if __name__ == "__main__":

@@ -24,7 +24,7 @@ test('Vicinae validates preferences and isolates cache by language pair', () => 
   assert.throws(() => prepareQuery(':xx hello'));
   assert.deepEqual(Object.keys(prepareQuery(':ja hello', { providers: 'Youdao' }).selected), ['YoudaoTranslate']);
   assert.equal(prepareQuery('hello', { cache_hours: '0' }).ttl, 0);
-  assert.deepEqual(Object.keys(prepareQuery(':ja hello').selected), ['YoudaoTranslate', 'Google', 'Bing']);
+  assert.deepEqual(Object.keys(prepareQuery(':ja hello').selected), ['YoudaoTranslate', 'Google']);
 });
 test('late queries cannot overwrite newer results or cache', async () => {
   const finishes: Record<string, () => void> = {}; const visible: QueryState[] = []; const writes: [string, string, { ttl: number }][] = [];
@@ -66,23 +66,22 @@ test('existing Alfred provider selection keeps default function identity', async
   const { selectProviders, providers } = await import('@felixdict/core/providers');
   const selected = selectProviders(['Google', 'Bing'], 'hello');
   assert.equal(selected.Google, providers.Google);
-  assert.equal(selected.Bing, providers.Bing);
+  assert.equal(selected.BingDictionary, providers.Bing);
 });
 
-test('explicit per-client language preferences reach both translators without mutating the environment', async () => {
+test('explicit per-client language preferences reach the translation provider without mutating the environment', async () => {
   const { selectProviders, providers } = await import('@felixdict/core/providers');
   const before = process.env.target_language;
   const preferences = { primary: 'fr', secondary: 'ja' };
-  const original = { Google: providers.Google, Bing: providers.Bing };
+  const original = providers.Google;
   try {
-    for (const name of ['Google', 'Bing']) providers[name] = async (query, signal, received) => {
-      assert.equal(query, 'hello'); assert.equal(received, preferences); return name;
+    providers.Google = async (query, signal, received) => {
+      assert.equal(query, 'hello'); assert.equal(received, preferences); return 'Google';
     };
     const selected = selectProviders(['Google', 'Bing'], 'hello', preferences);
     assert.equal(await selected.Google('hello'), 'Google');
-    assert.equal(await selected.Bing('hello'), 'Bing');
     assert.equal(process.env.target_language, before);
-  } finally { Object.assign(providers, original); }
+  } finally { providers.Google = original; }
 });
 
 test('pronunciation preview preserves both accents and distinguishes missing, pending and failure', () => {

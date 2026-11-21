@@ -14,8 +14,8 @@ const headers = { Origin: 'https://fanyi.youdao.com', Referer: 'https://fanyi.yo
 
 export class YoudaoTranslationError extends Error {
   constructor(code: 40 | 50 = 50) {
-    super(code === 40 ? '有道未能处理此语种对，请使用 Google 或 Bing'
-      : '有道翻译请求未成功，请稍后重试或使用 Google / Bing');
+    super(code === 40 ? '有道未能处理此语种对，请使用 Google 翻译'
+      : '有道翻译请求未成功，请稍后重试或使用 Google 翻译');
   }
 }
 

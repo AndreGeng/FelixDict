@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
-"""Build a self-contained Alfred package using only the Python standard library."""
+"""Build a self-contained Alfred package and its macOS translation window."""
 import json
 import plistlib
 import struct
+import subprocess
+import sys
+import tempfile
 import zlib
 from pathlib import Path
 from zipfile import ZipFile, ZIP_DEFLATED
@@ -11,6 +14,7 @@ APP = Path(__file__).resolve().parent.parent
 ROOT = APP.parent.parent
 DIST = ROOT / "dist"
 VERSION = json.loads((ROOT / "package.json").read_text())["version"]
+BUILD_PANEL = sys.platform == "darwin"
 
 
 def setting(variable, label, default, description):
@@ -19,12 +23,12 @@ def setting(variable, label, default, description):
             "config": {"default": default, "placeholder": "", "required": False, "trim": True}}
 
 
-def manifest():
+def manifest(include_panel=BUILD_PANEL):
     search, action, universal, speech = "SEARCH", "ACTION", "UNIVERSAL", "SPEECH"
     connection = lambda dest, modifiers=0, keep_open=False: {
         "destinationuid": dest, "modifiers": modifiers,
         "modifiersubtext": "", "vitoclose": keep_open}
-    return {
+    data = {
         # Keep the legacy ID so imports update existing FelixDict workflows and retain their cache.
         "bundleid": "local.alfred-easydict", "name": "FelixDict for Alfred",
         "description": "在 Alfred 内查词和翻译，独立运行，无需 Easydict App",
@@ -60,13 +64,51 @@ def manifest():
                    universal: {"xpos": 40, "ypos": 100}, speech: {"xpos": 560, "ypos": 300}},
         "userconfigurationconfig": [
             setting("keyword", "查询关键词", "fd", "默认 fd，可自行修改。"),
-            setting("providers", "查询来源", "Youdao,Google,Bing", "逗号分隔：Youdao（词典和翻译）、Google、Bing。默认全部启用。"),
+            setting("providers", "查询来源", "Youdao,Google,Bing", "逗号分隔：Youdao 和 Google（词典和翻译）、Bing（中英词典）。默认全部启用。"),
             setting("target_language", "首选目标语言 / Preferred target", "zh", "zh, en, ja, ko, fr, de, es, it, pt, ru, ar。默认 zh；:语言 前缀优先 / Explicit prefixes override this."),
             setting("secondary_language", "第二语言 / Secondary language", "en", "原文为首选语言时使用；须与首选语言不同 / Used when the source matches the preferred target; choose a different language."),
             setting("node_path", "Node.js 路径", "", "可留空自动检测；找不到时填写 Node.js 18+ 可执行文件绝对路径。"),
             setting("cache_hours", "缓存小时数", "24", "0–168。0 只保留当前查询状态约 1 秒；网络查询状态最多保留 20 秒。")
         ]
     }
+    if include_panel:
+        data["objects"].extend([
+            {"uid": "PANEL_KEYWORD", "type": "alfred.workflow.input.keyword", "version": 1,
+             "config": {"argumenttype": 1, "keyword": "{var:panel_keyword}", "withspace": True,
+                        "text": "FelixDict · 对照翻译", "subtext": "打开快译窗口，或输入文字后按回车"}},
+            {"uid": "PANEL_SELECTION", "type": "alfred.workflow.trigger.universalaction", "version": 1,
+             "config": {"acceptsfiles": False, "acceptsmulti": 0, "acceptstext": True,
+                        "acceptsurls": False, "name": "FelixDict 对照翻译"}},
+            {"uid": "PANEL", "type": "alfred.workflow.action.script", "version": 2,
+             "config": {"script": '/bin/bash ./launch.sh --panel "$1"', "scriptargtype": 1,
+                        "scriptfile": "", "type": 0, "escaping": 102, "concurrently": True}},
+        ])
+        data["connections"].update({entry: [connection("PANEL")] for entry in ("PANEL_KEYWORD", "PANEL_SELECTION")})
+        data["uidata"].update({"PANEL_KEYWORD": {"xpos": 40, "ypos": 460},
+                              "PANEL_SELECTION": {"xpos": 40, "ypos": 620},
+                              "PANEL": {"xpos": 560, "ypos": 460}})
+        data["userconfigurationconfig"].insert(1, setting(
+            "panel_keyword", "对照翻译关键词", "fdt", "打开快译窗口，默认 fdt，可自行修改。"))
+    return data
+
+
+def add_panel(output: ZipFile):
+    source = APP / 'panel'
+    with tempfile.TemporaryDirectory(prefix='felixdict-panel-') as directory:
+        binaries = []
+        for architecture in ('arm64', 'x86_64'):
+            binary = Path(directory) / architecture
+            subprocess.run(['xcrun', '--sdk', 'macosx', 'swiftc', '-O', '-target',
+                            f'{architecture}-apple-macosx12.0', str(source / 'Window.swift'),
+                            '-o', str(binary)], check=True)
+            binaries.append(str(binary))
+        panel = Path(directory) / 'FelixDictPanel'
+        subprocess.run(['xcrun', 'lipo', '-create', *binaries, '-output', str(panel)], check=True)
+        subprocess.run(['codesign', '--force', '--sign', '-', str(panel)], check=True)
+        output.write(panel, 'panel/FelixDictPanel')
+    for name in ('index.html', 'panel.css', 'panel.js'):
+        output.write(source / name, f'panel/{name}')
+    output.writestr('panel/icon.png', icon())
 
 
 def icon():
@@ -89,11 +131,11 @@ def icon():
     return b'\x89PNG\r\n\x1a\n' + chunk(b'IHDR', struct.pack('!2I5B', size, size, 8, 6, 0, 0, 0)) + chunk(b'IDAT', zlib.compress(b''.join(rows))) + chunk(b'IEND', b'')
 
 
-def main():
-    DIST.mkdir(exist_ok=True)
-    package = DIST / f"Alfred-FelixDict-{VERSION}.alfredworkflow"
+def write_package(package: Path):
     data = manifest()
     with ZipFile(package, 'w', ZIP_DEFLATED) as output:
+        if BUILD_PANEL:
+            add_panel(output)
         output.writestr('info.plist', plistlib.dumps(data))
         output.writestr('icon.png', icon())
         for name in ('licenses',):
@@ -115,6 +157,15 @@ def main():
     with ZipFile(package) as package_check:
         assert package_check.testzip() is None
         assert plistlib.loads(package_check.read('info.plist'))['bundleid'] == data['bundleid']
+
+
+def main():
+    DIST.mkdir(exist_ok=True)
+    package = DIST / f"Alfred-FelixDict-{VERSION}.alfredworkflow"
+    with tempfile.TemporaryDirectory(prefix='.alfred-build-', dir=DIST) as directory:
+        staging = Path(directory) / package.name
+        write_package(staging)
+        staging.replace(package)
     print(package)
 
 

@@ -42,25 +42,6 @@ export function decodeYoudao(data: unknown): Dictionary {
   return { phonetic, senses, forms, web };
 }
 
-export function parseBingConfig(html: string) {
-  const ig = html.match(/IG:"(.*?)"/)?.[1];
-  const iid = html.match(/data-iid="(.*?)"/)?.[1] || 'translator.5023';
-  const raw = html.match(/var params_AbusePreventionHelper\s*=\s*(.*?);/)?.[1];
-  const params = raw ? JSON.parse(raw) : null;
-  if (!ig || !Array.isArray(params) ||
-      !['number', 'string'].includes(typeof params[0]) || !Number.isFinite(Number(params[0])) ||
-      typeof params[1] !== 'string' || !params[1] || !(Number(params[2]) > 0)) {
-    throw new Error('Bing page changed or unavailable');
-  }
-  return { ig, iid, key: String(params[0]), token: params[1] };
-}
-
-export function decodeBing(data: unknown) {
-  const value = object(array(object(array(data)[0]).translations)[0]).text;
-  if (typeof value !== 'string' || !value.trim()) throw new Error('Invalid translation response');
-  return value;
-}
-
 export async function youdao(query: string, signal?: AbortSignal) {
   const params = new URLSearchParams({ q: direction(query).text, le: 'en',
     dicts: JSON.stringify({ count: 99, dicts: [['web_trans', 'ec', 'ce']] }) });
@@ -102,39 +83,19 @@ export function selectProviders(names: string[], query: string, preferences?: La
       if (supportedDictionary) selected.Youdao = youdao;
       selected.YoudaoTranslate = preferences
         ? (text, signal) => youdaoTranslate(text, signal, preferences) : youdaoTranslate;
+    } else if (name === 'Bing') {
+      if (dictionaryQuery && ['en', 'zh-Hans'].includes(direction(query, preferences).to)) {
+        selected.BingDictionary = providers.Bing;
+      }
     } else if (Object.hasOwn(providers, name)) {
       selected[name] = preferences
         ? (text, signal) => providers[name](text, signal, preferences) : providers[name];
       if (dictionaryQuery && name === 'Google') selected.GoogleDictionary =
         (text, signal) => googleDictionary(text, signal, preferences);
-      // Bing's dictionary page is English–Chinese, independent of its translator.
-      const target = direction(query, preferences).to;
-      if (dictionaryQuery && name === 'Bing' && ['en', 'zh-Hans'].includes(target)) selected.BingDictionary = bingDictionary;
     }
   }
   if (supportedDictionary && names.includes('Youdao') && canSuggest(query)) selected.Suggest = suggest;
   return selected;
-}
-
-export async function bing(query: string, signal?: AbortSignal, preferences?: LanguagePreferences) {
-  const page = await request('https://www.bing.com/translator', { signal });
-  const origin = new URL(page.url);
-  if (origin.protocol !== 'https:' || !['www.bing.com', 'cn.bing.com'].includes(origin.hostname)) {
-    throw new Error('Unexpected Bing redirect');
-  }
-  const config = parseBingConfig(page.body);
-  const input = direction(query, preferences);
-  const params = new URLSearchParams({ isVertical: '1', IG: config.ig, IID: `${config.iid}.1` });
-  const translate = async (target: string) => {
-    const body = new URLSearchParams({ text: input.text, fromLang: input.from, to: target,
-      key: config.key, token: config.token }).toString();
-    const response = await request(`${origin.origin}/ttranslatev3?${params}`, { body, signal });
-    const data = JSON.parse(response.body);
-    return { value: decodeBing(data), detected: text(data[0]?.detectedLanguage?.language) };
-  };
-  const first = await translate(input.to);
-  const target = first.detected ? resolvedTarget(query, first.detected, preferences) : input.to;
-  return target === input.to ? first.value : (await translate(target)).value;
 }
 
 export function decodeGoogle(data: unknown) {
@@ -159,4 +120,4 @@ export async function google(query: string, signal?: AbortSignal, preferences?: 
   return target === input.to ? first.value : (await translate(target)).value;
 }
 
-export const providers: Providers = { Youdao: youdao, Google: google, Bing: bing };
+export const providers: Providers = { Youdao: youdao, Google: google, Bing: bingDictionary };

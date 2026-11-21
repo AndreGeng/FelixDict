@@ -13,7 +13,7 @@ No running Easydict or Raycast app and no translation API key required.
 
 - **Dictionary lookup**: dictionary content from Youdao, Google, and Bing, including parts of speech, pronunciation, and word forms where available. Fields vary by provider and entry; see Configuration below.
 - **Prefix suggestions**: find a word from its first few letters, with Chinese glosses. Press Tab to complete it and look up the full entry.
-- **Multilingual translation**: Youdao, Google and Bing translation are enabled by default. The source language is detected automatically. Configure a preferred target and secondary language, or specify the target per query. Defaults retain Chinese–English translation.
+- **Multilingual translation**: Youdao and Google translation are enabled by default. The source language is detected automatically. Configure a preferred target and secondary language, or specify the target per query. Defaults retain Chinese–English translation.
 - **Keyboard actions**: Enter to copy, ⌘Enter to speak, and ⌘L to view the full result in Large Type.
 - **Code identifiers**: split `camelCase`, `HTTPServer`, and `snake_case` before lookup.
 - **Progressive results and caching**: providers run in parallel. Available results appear immediately and are reordered by the list rules; failures do not hide successful results.
@@ -24,7 +24,7 @@ A standalone Alfred Workflow with an English–Chinese dictionary and multilingu
 
 Download `Alfred-FelixDict-*.alfredworkflow` from [Releases](https://github.com/AndreGeng/FelixDict/releases), v0.2.0 or later, and double-click to import; no build needed. Source build instructions are also provided below.
 
-Requires **macOS, Alfred 5 with Powerpack, and Node.js 18+**. There are no npm runtime dependencies.
+Requires **macOS, Alfred 5 or 6 with Powerpack, and Node.js 18+**. There are no npm runtime dependencies. The translation window requires macOS 12 or later. Building it from source requires Xcode Command Line Tools.
 
 Alfred supports macOS only, and the FelixDict Workflow has been tested on macOS. For launcher platforms, tested environments, and how to report issues in other environments, see the [platform and validation table](../../README.en.md#which-version-should-i-use).
 
@@ -102,7 +102,7 @@ The following 11 target languages can be selected explicitly:
 | Portuguese | `pt` | Russian | `ru` |
 | Arabic | `ar` | | |
 
-Enable Youdao, Google or Bing; Youdao, Google and Bing translation are enabled by default. The translation service detects the source language. Short words, kanji-only text, and mixed languages can be ambiguous; use a prefix such as `:zh` or `:en` to fix the target.
+Enable Youdao or Google. Both translation sources are enabled by default. The translation service detects the source language. Short words, kanji-only text, and mixed languages can be ambiguous; use a prefix such as `:zh` or `:en` to fix the target.
 Explicit targets show translation results only. Youdao's definitions, phonetics, and prefix suggestions retain their existing English–Chinese scope.
 `⌘Enter` speaks the translation for translation results and the query word for dictionary results. Japanese containing kana, Korean, and Chinese use a matching installed system voice.
 
@@ -117,7 +117,7 @@ Suggestions appear for **2–40 English letters** when Youdao is enabled. For ex
 Up to six candidates appear after the first definition of the current query. Select one with ↑ / ↓ and press **Tab** to complete the word and retrieve its detailed entry.
 Candidates are labeled “有道联想” (Youdao suggestions), with a “Tab 补全” (Tab to complete) hint alongside the action shortcuts. Enter still copies the complete candidate word, keeping its copy action consistent with ordinary results. Candidates also support speech and Large Type. Chinese text, sentences, and inputs containing symbols do not trigger suggestions. A suggestion failure does not interrupt ordinary lookup.
 
-Dictionary meanings, word forms, and web definitions occupy separate rows, with translations listed separately; results are not collapsed into one row per provider. Dictionaries are ordered Youdao, Google, then Bing, followed by translations in the same provider order. Suggestions appear after the first available result, and errors and loading indicators come last. No empty slots are reserved, so later responses can move existing rows.
+Dictionary meanings, word forms, and web definitions occupy separate rows, with translations listed separately; results are not collapsed into one row per provider. Dictionaries are ordered Youdao, Google, then Bing, followed by Youdao and Google translations. Suggestions appear after the first available result, and errors and loading indicators come last. No empty slots are reserved, so later responses can move existing rows.
 
 ### Keyboard shortcuts
 
@@ -138,6 +138,8 @@ In Large Type, the first Esc returns to the result list; a second Esc dismisses 
 ![Phrase definitions for look forward to in Alfred](../../docs/screenshots/phrase.jpg)
 
 You can also select text in another app and use **Universal Actions → FelixDict 查词 / 翻译**.
+Enter `fdt` to open the translation window. Run `fdt text` or select text and use **Universal Actions → FelixDict 对照翻译** to translate immediately. **比较译文** expands the window to two columns so you can see every source and retry individual failures. The window automatically follows the macOS light or dark appearance. Use the pin to keep it above ordinary app windows on the current desktop.
+Select **打开对照翻译窗口** in the `fd` results and press Enter to carry over the source text and explicit target language.
 Alfred's global activation and Universal Actions shortcuts are configured in Alfred. This Workflow does not assign a fixed global hotkey.
 
 ## Configuration
@@ -147,19 +149,18 @@ Open **Alfred Preferences → Workflows → FelixDict for Alfred → Configure W
 | Variable | Default | Description |
 | --- | --- | --- |
 | `keyword` | `fd` | Lookup keyword; you can use `yd` if it does not conflict with another Workflow |
-| `providers` | `Youdao,Google,Bing` | Comma-separated list: `Youdao` (dictionary and translation), `Google`, `Bing` |
+| `providers` | `Youdao,Google,Bing` | Comma-separated list: `Youdao` and `Google` (dictionary and translation), `Bing` (English–Chinese dictionary) |
 | `target_language` | `zh` | Preferred target language code, such as `en` or `ja` |
 | `secondary_language` | `en` | Target when the source matches the preferred language; must be different |
 | `node_path` | Auto-detected | Absolute path to the Node.js executable |
 | `cache_hours` | `24` | 0–168 hours; 0 disables long-term caching but retains brief state for the active query |
 
-Enabling `Youdao` includes dictionary entries, suggestions and multilingual translation, without new settings or a user API key. The web translation endpoint has language-pair restrictions; failures for unsupported pairs suggest Google/Bing while other sources remain available. See the [language test report](../../docs/youdao-language-support.md) for tested pairs and known failures or mistranslations.
+Enabling `Youdao` includes dictionary entries, suggestions and multilingual translation, without new settings or a user API key. The web translation endpoint has language-pair restrictions; failures for unsupported pairs suggest Google Translate while other sources remain available. See the [language test report](../../docs/youdao-language-support.md) for tested pairs and known failures or mistranslations.
 
-Plain word and short-phrase queries also fetch dictionary data for enabled providers: Google supplies a reading, translations grouped by part of speech, and source-language definitions; Bing’s English–Chinese dictionary supplies US/UK phonetics, parts of speech, inflections, and web definitions. Fields depend on the entry. Google can show a dictionary base form that differs from the input (for example, went → go), but no complete inflection table is available in this integration; its reading is not necessarily IPA. Dictionary and translation requests fail independently. Explicit `:language` targets and long sentences use Google/Bing translation only; Bing dictionary lookup runs only for Chinese or English targets. Removing `Google` or `Bing` disables both its dictionary and translation.
+Plain word and short-phrase queries also fetch dictionary data for enabled providers: Google supplies a reading, translations grouped by part of speech, and source-language definitions; Bing’s English–Chinese dictionary supplies US/UK phonetics, parts of speech, inflections, and web definitions. Fields depend on the entry. Google can show a dictionary base form that differs from the input (for example, went → go), but no complete inflection table is available in this integration; its reading is not necessarily IPA. Dictionary and translation requests fail independently. Explicit `:language` targets and long sentences use the enabled Youdao and Google translation sources. Bing dictionary lookup covers eligible Chinese and English words and short phrases. Removing `Bing` disables Bing dictionary lookup. Removing `Google` disables Google dictionary lookup and translation.
 
-Language preferences apply to Youdao/Google/Bing translation. Youdao dictionary entries and prefix suggestions remain English–Chinese; removing `Youdao` from `providers` disables its dictionary entries, suggestions and translation together.
+Language preferences apply to Youdao and Google translation. Youdao dictionary entries and prefix suggestions remain English–Chinese; removing `Youdao` from `providers` disables its dictionary entries, suggestions and translation together.
 
-Youdao supplies dictionary entries, prefix suggestions and multilingual translation; Google and Bing supply dictionary lookup and multilingual translation. Bing is enabled by default. Live translation and Alfred CLI checks passed in the current development environment on 2026-11-01; the earlier failure could not be reproduced. See [VERIFICATION.md](../../VERIFICATION.md) for scope and details.
 These providers use website endpoints. Availability can change with network conditions, rate limits, and upstream protocol changes.
 
 `curl` inherits `HTTPS_PROXY` and `ALL_PROXY`; it does not automatically read macOS system proxy settings.

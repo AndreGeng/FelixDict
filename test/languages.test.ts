@@ -25,8 +25,10 @@ test('foreign scripts and explicit targets avoid the English-Chinese dictionary'
   assert.deepEqual(Object.keys(selectProviders(['Youdao','Google'], '今日はいい天気')), ['YoudaoTranslate', 'Google']);
   assert.deepEqual(Object.keys(selectProviders(['Youdao','Google'], ':fr hello')), ['YoudaoTranslate', 'Google']);
   assert.ok(selectProviders(['Youdao','Google'], 'hello').Youdao);
-  const row = render(':ja 你好', {updated: Date.now(), results:{Google:'こんにちは'}, errors:{}, pending:[]}).items[0];
+  const [row, panel] = render(':ja 你好', {updated: Date.now(), results:{Google:'こんにちは'}, errors:{}, pending:[]}, true).items;
   assert.equal(row.mods!.cmd.arg, 'こんにちは');
+  assert.equal(panel.arg, ':ja 你好');
+  assert.equal(panel.variables?.action, 'panel');
 });
 
 test('upstream language detection corrects ambiguous kanji and respects explicit target', async () => {
