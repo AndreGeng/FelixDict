@@ -27,8 +27,12 @@ test('foreign scripts and explicit targets avoid the English-Chinese dictionary'
   assert.ok(selectProviders(['Youdao','Google'], 'hello').Youdao);
   const [row, panel] = render(':ja 你好', {updated: Date.now(), results:{Google:'こんにちは'}, errors:{}, pending:[]}, true).items;
   assert.equal(row.mods!.cmd.arg, 'こんにちは');
+  assert.equal(row.mods?.alt?.arg, ':ja 你好');
+  assert.equal(row.mods?.alt?.variables.action, 'panel');
+  assert.match(row.subtitle, /⌥↩ 快译/);
   assert.equal(panel.arg, ':ja 你好');
   assert.equal(panel.variables?.action, 'panel');
+  assert.equal(panel.mods?.alt?.arg, ':ja 你好');
 });
 
 test('upstream language detection corrects ambiguous kanji and respects explicit target', async () => {

@@ -139,7 +139,7 @@ In Large Type, the first Esc returns to the result list; a second Esc dismisses 
 
 You can also select text in another app and use **Universal Actions → FelixDict 查词 / 翻译**.
 Enter `fdt` to open the translation window. Run `fdt text` or select text and use **Universal Actions → FelixDict 对照翻译** to translate immediately. **比较译文** expands the window to two columns so you can see every source and retry individual failures. The window automatically follows the macOS light or dark appearance. Use the pin to keep it above ordinary app windows on the current desktop.
-Select **打开对照翻译窗口** in the `fd` results and press Enter to carry over the source text and explicit target language.
+Press **⌥Enter** in the `fd` results to open the translation window with the current source text and explicit target language. You can also select **打开对照翻译窗口** and press Enter.
 Alfred's global activation and Universal Actions shortcuts are configured in Alfred. This Workflow does not assign a fixed global hotkey.
 
 ## Configuration

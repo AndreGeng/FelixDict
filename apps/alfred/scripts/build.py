@@ -72,6 +72,7 @@ def manifest(include_panel=BUILD_PANEL):
         ]
     }
     if include_panel:
+        data["connections"][search].append(connection("PANEL", 524288))
         data["objects"].extend([
             {"uid": "PANEL_KEYWORD", "type": "alfred.workflow.input.keyword", "version": 1,
              "config": {"argumenttype": 1, "keyword": "{var:panel_keyword}", "withspace": True,

@@ -48,6 +48,7 @@ class BuildTests(unittest.TestCase):
             output = subprocess.check_output(["node", "dist/cli.js", "--query", "hello"], cwd=target, env=env, text=True)
             items = json.loads(output)["items"]
             self.assertEqual(items[0]["arg"], "packaged result")
+            self.assertEqual(items[0]["mods"].get("alt", {}).get("arg"), "hello" if build.BUILD_PANEL else None)
             panel_rows = [row for row in items if row.get("variables", {}).get("action") == "panel"]
             self.assertEqual([row["arg"] for row in panel_rows], ["hello"] if build.BUILD_PANEL else [])
             panel_key = hashlib.sha256(json.dumps(
@@ -70,6 +71,15 @@ class BuildTests(unittest.TestCase):
         settings = {s["variable"]: s for s in manifest["userconfigurationconfig"]}
         self.assertEqual(settings["keyword"]["config"]["default"], "fd")
         self.assertEqual(manifest["bundleid"], "local.alfred-easydict")
+
+    def test_option_return_opens_only_a_packaged_panel(self):
+        manifest = build.manifest(include_panel=True)
+        shortcut = next(c for c in manifest["connections"]["SEARCH"] if c["modifiers"] == 524288)
+        self.assertEqual(shortcut["destinationuid"], "PANEL")
+        self.assertFalse(shortcut["vitoclose"])
+        panel = next(o for o in manifest["objects"] if o["uid"] == "PANEL")
+        self.assertEqual(panel["config"]["script"], '/bin/bash ./launch.sh --panel "$1"')
+        self.assertFalse(any(c["modifiers"] == 524288 for c in build.manifest(include_panel=False)["connections"]["SEARCH"]))
 
     def test_speech_keeps_window_open_without_affecting_copy(self):
         connections = build.manifest()["connections"]["SEARCH"]

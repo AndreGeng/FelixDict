@@ -23,7 +23,7 @@ The window shows the first translation as soon as it arrives. Use **比较译文
 
 - **Enter**: copy the selected definition, translation, or complete suggested word.
 - **⌘Enter**: speak the query word, translation, or suggestion while keeping the window open.
-- Select **打开对照翻译窗口** in the `fd` results and press Enter to carry over the source text and explicit target language.
+- **⌥Enter**: open the translation window from the `fd` results with the current source text and explicit target language. You can also select **打开对照翻译窗口** and press Enter.
 - **⌘L**: show the selected row's available full text in Large Type without querying again.
 - **Tab**: complete a selected suggestion and query its detailed entry.
 
