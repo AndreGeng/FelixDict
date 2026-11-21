@@ -6,6 +6,10 @@ FelixDict 是运行在 **Alfred、Vicinae 和 Raycast** 中的查词与翻译工
 
 如果 FelixDict 对你有帮助，欢迎在 [GitHub 上给个 Star ⭐](https://github.com/AndreGeng/FelixDict)，支持项目继续改进！
 
+**支持 Alfred 6 和 Alfred 5（需 Powerpack）。** 在 Alfred 输入 `fdt`，或在 `fd` 结果列表按 **⌥↩**，即可打开[快译窗口](#快译与译文对照)。
+
+![FelixDict 的 fdt 快译窗口，显示中文原文、英文译文和「比较译文」按钮](docs/screenshots/alfred-fdt.png)
+
 ## 功能
 
 - **中英词典**：查看多词性释义、英美音标、词形变化和网络释义。
@@ -55,7 +59,7 @@ Alfred、Vicinae 和 Raycast 都是用键盘呼出的应用启动器；FelixDict
 
 | 启动器 | Release 附件 | 安装方式 |
 | --- | --- | --- |
-| Alfred | `Alfred-FelixDict-*.alfredworkflow` | 双击导入，需要 Powerpack 和 Node.js 18+ |
+| Alfred | `Alfred-FelixDict-*.alfredworkflow` | 双击导入到 Alfred 6 或 Alfred 5。需要 Powerpack 和 Node.js 18+，快译窗口需要 macOS 12+ |
 | Vicinae | `FelixDict-Vicinae-*.zip` | 解压，按包内 INSTALL.md 复制预编译扩展目录，无需编译 |
 | Raycast | `FelixDict-Raycast-source-*.zip` | 解压后执行 `npm ci`、`npm run dev:raycast`，需要 Node.js 22.22.2+ |
 
@@ -91,7 +95,7 @@ Enter 复制，⌘Enter 朗读，⌘L 大字查看全文，Tab 补全候选词�
 
 v0.3.0 起，在 `fd` 结果列表按 **⌥↩（Option + 回车）**，即可带入当前查询的原文和指定的目标语种。比如搜索 `fd :ja 你好` 后按 **⌥↩**，窗口会直接开始翻译成日语。也可以输入 `fdt` 打开空窗口，输入 `fdt 文本` 立即翻译，或在其他应用中选中文字后运行 **Universal Actions → FelixDict 对照翻译**。
 
-窗口先显示第一条返回的译文。点 **比较译文** 可展开双栏，查看有道和 Google 的结果，单独重试失败的来源。可用右上角的图钉把窗口置于当前桌面的其他普通窗口上方，深浅色随 macOS 外观切换。快译窗口需要 macOS 12 或更新版本。
+窗口先显示第一条返回的译文。点 **比较译文** 可展开双栏，查看有道和 Google 的结果，单独重试失败的来源。可用右上角的图钉把窗口置于当前桌面的其他普通窗口上方，深浅色随 macOS 外观切换。Alfred 5 和 Alfred 6 都会打开同一个独立的 macOS 快译窗口，窗口需要 macOS 12 或更新版本。
 
 → [Alfred 安装与详细使用说明](apps/alfred/README.md)
 

@@ -6,6 +6,10 @@ FelixDict brings **dictionary lookup and translation to Alfred, Vicinae, and Ray
 
 If FelixDict is useful to you, consider [giving it a star on GitHub ⭐](https://github.com/AndreGeng/FelixDict) to support its continued development!
 
+**Supports Alfred 6 and Alfred 5 with Powerpack.** Enter `fdt` or press **⌥↩** in `fd` results to open the [translation window](#quick-translation-and-side-by-side-comparison).
+
+![FelixDict fdt window showing Chinese source text, an English translation, and the Compare Translations button](docs/screenshots/alfred-fdt.png)
+
 ## Features
 
 - **English–Chinese dictionary**: definitions by part of speech, British and American phonetics, word forms, and web meanings.
@@ -55,7 +59,7 @@ Choose the **latest version** from [GitHub Releases](https://github.com/AndreGen
 
 | Launcher | Release asset | Installation |
 | --- | --- | --- |
-| Alfred | `Alfred-FelixDict-*.alfredworkflow` | Double-click to import; requires Powerpack and Node.js 18+ |
+| Alfred | `Alfred-FelixDict-*.alfredworkflow` | Double-click to import into Alfred 6 or Alfred 5. Requires Powerpack and Node.js 18+. The translation window requires macOS 12+. |
 | Vicinae | `FelixDict-Vicinae-*.zip` | Extract and copy the precompiled extension as described in INSTALL.md; no build needed |
 | Raycast | `FelixDict-Raycast-source-*.zip` | Extract, run `npm ci` then `npm run dev:raycast`; requires Node.js 22.22.2+ |
 
@@ -91,7 +95,7 @@ Enter copies, ⌘Enter speaks, ⌘L opens Large Type, and Tab completes a sugges
 
 Starting with v0.3.0, press **⌥↩ (Option + Return)** in the `fd` results to open the translation window with the current source text and explicit target language. For example, enter `fd :ja 你好` and press **⌥↩** to start translating into Japanese. Enter `fdt` to open an empty window, enter `fdt text` to translate immediately, or select text in another app and run **Universal Actions → FelixDict 对照翻译**.
 
-The window shows the first translation as soon as it arrives. Click **比较译文** to compare Youdao and Google side by side and retry individual providers. The pin keeps the window above ordinary app windows on the current desktop, and the window follows macOS light or dark appearance. The translation window requires macOS 12 or later.
+The window shows the first translation as soon as it arrives. Click **比较译文** to compare Youdao and Google side by side and retry individual providers. The pin keeps the window above ordinary app windows on the current desktop, and the window follows macOS light or dark appearance. Alfred 5 and Alfred 6 open the same standalone macOS translation window, which requires macOS 12 or later.
 
 → [Alfred installation and usage guide](apps/alfred/README.en.md)
 
