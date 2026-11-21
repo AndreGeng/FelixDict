@@ -11,6 +11,7 @@ If FelixDict is useful to you, consider [giving it a star on GitHub ⭐](https:/
 - **English–Chinese dictionary**: definitions by part of speech, British and American phonetics, word forms, and web meanings.
 - **Prefix suggestions**: type the first few letters of an English word, compare candidates and their meanings, then complete the word to look it up.
 - **Multilingual translation**: automatic source-language detection and 11 target languages, including Chinese, English, Japanese, Korean, and French. Set preferred targets or override them with a prefix such as `:ja`.
+- **Alfred translation window**: press **⌥↩** in `fd` results to open `fdt` with the current source text and target language, then compare Youdao and Google side by side.
 - **Keyboard actions**: copy, speak, and view full results without reaching for the mouse.
 - **Progressive results and caching**: services run in parallel, results appear as they arrive, and repeated queries can use the local cache.
 
@@ -40,7 +41,7 @@ Alfred, Vicinae, and Raycast are keyboard-driven application launchers. FelixDic
 | Vicinae | Linux (Wayland / X11), macOS (Apple Silicon only, beta), Windows (since 0.29.0) | macOS, Arch Linux | [Vicinae edition](apps/vicinae/README.en.md) |
 | Raycast | macOS, Windows | macOS | [Raycast edition](apps/raycast/README.en.md) |
 
-- **macOS**: all three editions have been tested. Choose the edition for your launcher. Alfred requires Alfred 5 Powerpack and Node.js 18+.
+- **macOS**: all three editions have been tested. Choose the edition for your launcher. Alfred requires Alfred 5 or 6 Powerpack and Node.js 18+.
 - **Linux**: use the Vicinae edition, tested on Arch Linux. Other distributions and desktop environments have not been individually tested. Speech requires a configured Speech Dispatcher (`spd-say`).
 - **Windows**: Vicinae and Raycast themselves support Windows. FelixDict is awaiting validation on Windows; please try it and report any issues.
 
@@ -50,7 +51,7 @@ Launcher platform information checked on 2026-11-01: [Alfred](https://www.alfred
 
 ## Downloads and installation
 
-Choose **v0.2.0 or later** from [GitHub Releases](https://github.com/AndreGeng/FelixDict/releases) and download the asset for your launcher:
+Choose the **latest version** from [GitHub Releases](https://github.com/AndreGeng/FelixDict/releases) and download the asset for your launcher:
 
 | Launcher | Release asset | Installation |
 | --- | --- | --- |
@@ -62,7 +63,7 @@ An official precompiled `.rayext` bundle is also provided, but the tested Raycas
 
 ## Alfred
 
-For **macOS with Alfred 5 Powerpack**. Requires Node.js 18+ at runtime.
+For **macOS with Alfred 5 or 6 Powerpack**. Requires Node.js 18+ at runtime.
 
 Open Alfred and type the keyword followed by your query:
 
@@ -85,6 +86,12 @@ fd :ja 你好
 ![Japanese translation in Alfred](docs/screenshots/translation.jpg)
 
 Enter copies, ⌘Enter speaks, ⌘L opens Large Type, and Tab completes a suggested word.
+
+### Quick translation and side-by-side comparison
+
+Starting with v0.3.0, press **⌥↩ (Option + Return)** in the `fd` results to open the translation window with the current source text and explicit target language. For example, enter `fd :ja 你好` and press **⌥↩** to start translating into Japanese. Enter `fdt` to open an empty window, enter `fdt text` to translate immediately, or select text in another app and run **Universal Actions → FelixDict 对照翻译**.
+
+The window shows the first translation as soon as it arrives. Click **比较译文** to compare Youdao and Google side by side and retry individual providers. The pin keeps the window above ordinary app windows on the current desktop, and the window follows macOS light or dark appearance. The translation window requires macOS 12 or later.
 
 → [Alfred installation and usage guide](apps/alfred/README.en.md)
 

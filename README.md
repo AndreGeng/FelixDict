@@ -11,6 +11,7 @@ FelixDict 是运行在 **Alfred、Vicinae 和 Raycast** 中的查词与翻译工
 - **中英词典**：查看多词性释义、英美音标、词形变化和网络释义。
 - **单词联想**：输入英文单词的前几个字母，查看完整候选和释义，再补全查询。
 - **多语言翻译**：自动识别源语言，支持中、英、日、韩、法等 11 种目标语言，可设置默认目标或用 `:ja` 等前缀临时指定。
+- **Alfred 快译窗口**：在 `fd` 结果列表按 **⌥↩**，带着当前原文和目标语种打开 `fdt`，并排比较有道和 Google 的译文。
 - **键盘操作**：复制结果、朗读单词或译文、查看全文，全程可用键盘完成。
 - **渐进结果与缓存**：多个服务并行查询，结果陆续显示，重复查询可使用本地缓存。
 
@@ -40,7 +41,7 @@ Alfred、Vicinae 和 Raycast 都是用键盘呼出的应用启动器；FelixDict
 | Vicinae | Linux（Wayland / X11）、macOS（仅 Apple Silicon，Beta）、Windows（0.29.0 起） | macOS、Arch Linux | [Vicinae 版](apps/vicinae/README.md) |
 | Raycast | macOS、Windows | macOS | [Raycast 版](apps/raycast/README.md) |
 
-- **macOS**：三个版本均已验证，按你使用的启动器选择。Alfred 版需要 Alfred 5 Powerpack 和 Node.js 18+。
+- **macOS**：三个版本均已验证，按你使用的启动器选择。Alfred 版需要 Alfred 5 或 6 Powerpack 和 Node.js 18+。
 - **Linux**：使用 Vicinae 版，已在 Arch Linux 验证；其它发行版和桌面环境尚未逐一验证。朗读需要配置 Speech Dispatcher（`spd-say`）。
 - **Windows**：Vicinae 和 Raycast 本身支持 Windows；FelixDict 在 Windows 上尚待验证，欢迎试用并反馈问题。
 
@@ -50,7 +51,7 @@ Alfred、Vicinae 和 Raycast 都是用键盘呼出的应用启动器；FelixDict
 
 ## 下载与安装
 
-从 [GitHub Releases](https://github.com/AndreGeng/FelixDict/releases) 选择 **v0.2.0 或更新版本**，按启动器下载：
+从 [GitHub Releases](https://github.com/AndreGeng/FelixDict/releases) 选择 **最新版本**，按启动器下载：
 
 | 启动器 | Release 附件 | 安装方式 |
 | --- | --- | --- |
@@ -62,7 +63,7 @@ Raycast 另提供官方 `.rayext` 预编译包，但当前已验证的安装路�
 
 ## Alfred
 
-适用于 **macOS + Alfred 5 Powerpack**，运行需要 Node.js 18+。
+适用于 **macOS + Alfred 5 或 6 Powerpack**，运行需要 Node.js 18+。
 
 呼出 Alfred，直接输入关键词和查询内容：
 
@@ -85,6 +86,12 @@ fd :ja 你好
 ![Alfred 中的日语翻译](docs/screenshots/translation.jpg)
 
 Enter 复制，⌘Enter 朗读，⌘L 大字查看全文，Tab 补全候选词。
+
+### 快译与译文对照
+
+v0.3.0 起，在 `fd` 结果列表按 **⌥↩（Option + 回车）**，即可带入当前查询的原文和指定的目标语种。比如搜索 `fd :ja 你好` 后按 **⌥↩**，窗口会直接开始翻译成日语。也可以输入 `fdt` 打开空窗口，输入 `fdt 文本` 立即翻译，或在其他应用中选中文字后运行 **Universal Actions → FelixDict 对照翻译**。
+
+窗口先显示第一条返回的译文。点 **比较译文** 可展开双栏，查看有道和 Google 的结果，单独重试失败的来源。可用右上角的图钉把窗口置于当前桌面的其他普通窗口上方，深浅色随 macOS 外观切换。快译窗口需要 macOS 12 或更新版本。
 
 → [Alfred 安装与详细使用说明](apps/alfred/README.md)
 

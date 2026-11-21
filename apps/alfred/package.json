@@ -1,9 +1,9 @@
 {
   "name": "@felixdict/alfred",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "private": true,
   "type": "module",
   "dependencies": {
-    "@felixdict/core": "0.2.1"
+    "@felixdict/core": "0.3.0"
   }
 }

@@ -166,7 +166,7 @@
   },
   "dependencies": {
     "@vicinae/api": "0.29.2",
-    "@felixdict/core": "0.2.1"
+    "@felixdict/core": "0.3.0"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
